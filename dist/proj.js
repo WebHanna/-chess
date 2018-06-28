@@ -111,7 +111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					_this.board.cells.forEach(function (row) {
 						row.forEach(function (cell) {
 							if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
-								cell.setFigure(thi.getInitiallFigure(initialFigure));
+								cell.setFigure(_this.getInitiallFigure(initialFigure));
 							}
 						});
 					});
@@ -119,9 +119,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}, {
 			key: 'getInitiallFigure',
-			value: function getInitiallFigure(initiallFigure) {
+			value: function getInitiallFigure(initialFigure) {
 				if (InitiallFigure.type === "Pawn") {
-					return new _Pawn2.default(initiallFigure.color, initiallFigure.x, initiallFigure.y, initiallFigure.id);
+					return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 				}
 			}
 		}, {
@@ -321,14 +321,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				_Game2.default.board.element.appendChild(this.figure.element);
 			}
 		}, {
-			key: 'setAvaible',
-			value: function setAvaible() {
+			key: 'setAvailable',
+			value: function setAvailable() {
 				this.element.classList.add('available');
 				this.available = true;
 			}
 		}, {
-			key: 'removeAvaible',
-			value: function removeAvaible() {
+			key: 'removeAvailable',
+			value: function removeAvailable() {
 				this.element.classList.remove('available');
 				this.available = false;
 			}

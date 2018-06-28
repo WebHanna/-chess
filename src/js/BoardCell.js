@@ -70,12 +70,12 @@ export default class  BoardCell {
     game.board.element.appendChild(this.figure.element);
 	}
 
-	setAvaible() {
+	setAvailable() {
 		this.element.classList.add('available');
 		this.available = true;
 	}
 
-	removeAvaible() {
+	removeAvailable() {
 		this.element.classList.remove('available');
 		this.available = false;
 	}
@@ -95,4 +95,5 @@ export default class  BoardCell {
 	isAvailable(figure) {
     return game.board.cells[figure.y][figure.x].available;
 	}
+
 }

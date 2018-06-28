@@ -27,16 +27,16 @@ class Game {
 			this.board.cells.forEach(row => {
 				row.forEach(cell => {
 					if(cell.x === initialFigure.x && cell.y === initialFigure.y) {
-            cell.setFigure(thi.getInitiallFigure(initialFigure));
+            cell.setFigure(this.getInitiallFigure(initialFigure));
 					}
 				})
 			})
 		})
 	}
 
-	getInitiallFigure(initiallFigure) {
+	getInitiallFigure(initialFigure) {
 		if(InitiallFigure.type === "Pawn") {
-			return new Pawn(initiallFigure.color, initiallFigure.x, initiallFigure.y, initiallFigure.id);
+			return new Pawn(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 		}
 	}
 
