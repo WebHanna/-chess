@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -89,53 +89,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Game = function () {
-	  function Game() {
-	    _classCallCheck(this, Game);
+		function Game() {
+			_classCallCheck(this, Game);
 	
-	    this.board = new _Board2.default();
-	    this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 1, y: 1, type: 'Pawn', color: 'white', id: 2 }, { x: 2, y: 1, type: 'Pawn', color: 'white', id: 3 }, { x: 1, y: 2, type: 'Pawn', color: 'black', id: 4 }, { x: 3, y: 1, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }];
-	  }
+			this.board = new _Board2.default();
+			this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 1, y: 1, type: 'Pawn', color: 'white', id: 2 }, { x: 2, y: 1, type: 'Pawn', color: 'white', id: 3 }, { x: 1, y: 2, type: 'Pawn', color: 'black', id: 4 }, { x: 3, y: 1, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }];
+		}
 	
-	  _createClass(Game, [{
-	    key: 'start',
-	    value: function start() {
-	      this.board.renderBoard();
-	      this.setDefaultState();
-	    }
-	  }, {
-	    key: 'setDefaultState',
-	    value: function setDefaultState() {
-	      var _this = this;
+		_createClass(Game, [{
+			key: 'start',
+			value: function start() {
+				this.board.renderBoard();
+				this.setDefaultState();
+			}
+		}, {
+			key: 'setDefaultState',
+			value: function setDefaultState() {
+				var _this = this;
 	
-	      this.defaultFiguresState.forEach(function (initialFigure) {
-	        _this.board.cells.forEach(function (row) {
-	          row.forEach(function (cell) {
-	            if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
-	              cell.setFigure(_this.getInitialFigure(initialFigure));
-	            }
-	          });
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'getInitialFigure',
-	    value: function getInitialFigure(initialFigure) {
-	      if (initialFigure.type === 'Pawn') {
-	        return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
-	      }
-	    }
-	  }, {
-	    key: 'turnEnd',
-	    value: function turnEnd() {
-	      this.board.cells.forEach(function (row) {
-	        row.forEach(function (cell) {
-	          cell.removeAvailable();
-	        });
-	      });
-	    }
-	  }]);
+				this.defaultFiguresState.forEach(function (initialFigure) {
+					_this.board.cells.forEach(function (row) {
+						row.forEach(function (cell) {
+							if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
+								cell.setFigure(thi.getInitiallFigure(initialFigure));
+							}
+						});
+					});
+				});
+			}
+		}, {
+			key: 'getInitiallFigure',
+			value: function getInitiallFigure(initiallFigure) {
+				if (InitiallFigure.type === "Pawn") {
+					return new _Pawn2.default(initiallFigure.color, initiallFigure.x, initiallFigure.y, initiallFigure.id);
+				}
+			}
+		}, {
+			key: 'turnEnd',
+			value: function turnEnd() {
+				this.board.cell.forEach(function (row) {
+					row.forEach(function (cell) {
+						cell.removeAvailable();
+					});
+				});
+			}
+		}]);
 	
-	  return Game;
+		return Game;
 	}();
 	
 	var game = new Game();
@@ -174,11 +174,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		_createClass(Board, [{
 			key: 'renderBoard',
 			value: function renderBoard() {
-	
 				var board = document.getElementById('board');
-	
 				this.getCells();
-	
 				this.cells.forEach(function (row) {
 					row.forEach(function (cell) {
 						board.appendChild(cell.element);
@@ -202,8 +199,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						arr.push(this.getRow(i, black, white));
 					}
 				}
-	
-				this.cells = arr;
 			}
 		}, {
 			key: 'getRow',
@@ -211,14 +206,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				var arr = [];
 	
 				for (var i = 0; i < 8; i++) {
-	
 					if (i % 2 === 0) {
 						arr.push(new _BoardCell2.default(firstColor, i, y));
 					} else {
 						arr.push(new _BoardCell2.default(secondColor, i, y));
 					}
 				}
-				return arr;
 			}
 		}]);
 	
@@ -234,7 +227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -248,120 +241,117 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var BoardCell = function () {
-	  function BoardCell(color, x, y) {
-	    _classCallCheck(this, BoardCell);
+		function BoardCell(color, x, y) {
+			_classCallCheck(this, BoardCell);
 	
-	    this.color = color;
-	    this.x = x;
-	    this.y = y;
-	    this.figure = null;
-	    this.element = this.createCell(color);
-	    this.available = null;
-	  }
+			this.color = color;
+			this.x = x;
+			this.y = y;
+			this.figure = null;
+			this.element = this.createCell(color);
+			this.available = null;
+		}
 	
-	  _createClass(BoardCell, [{
-	    key: 'createCell',
-	    value: function createCell(color) {
-	      var cell = document.createElement('div');
-	      cell.className = 'block ' + color;
-	      cell.dataset.x = this.x;
-	      cell.dataset.y = this.y;
-	      cell.style.left = this.x * 70 + 'px';
-	      cell.style.top = this.y * 70 + 'px';
-	      this.setCellOnClick(cell);
+		_createClass(BoardCell, [{
+			key: 'createCell',
+			value: function createCell(color) {
+				var cell = document.createElement('div');
+				cell.className = 'block ' + color;
+				cell.dataset.x = this.x;
+				cell.dataset.y = this.y;
+				cell.style.left = this.x * 70 + 'px';
+				cell.style.top = this.y * 70 + 'px';
 	
-	      return cell;
-	    }
-	  }, {
-	    key: 'setFigure',
-	    value: function setFigure(figure) {
-	      this.figure = figure;
-	      this.renderInitialFigure();
-	    }
-	  }, {
-	    key: 'setCellOnClick',
-	    value: function setCellOnClick(cell) {
-	      var _this = this;
+				return cell;
+			}
+		}, {
+			key: 'setFigure',
+			value: function setFigure(figure) {
+				this.figure = figure;
+				this.renderInitialFigure();
+			}
+		}, {
+			key: 'setCellOnClick',
+			value: function setCellOnClick(cell) {
+				var _this = this;
 	
-	      cell.addEventListener('click', function () {
-	        if (_Game2.default.selectedFigure) _Game2.default.selectedFigure.move(_this);
+				cell.addEventListener('click', function () {
+					if (_Game2.default.selectedFigure) _Game2.default.selectedFigure.move(_this);
 	
-	        _Game2.default.selectedFigure = null;
-	        _Game2.default.turnEnd();
-	      });
-	    }
-	  }, {
-	    key: 'setFigureOnClick',
-	    value: function setFigureOnClick() {
-	      var _this2 = this;
+					_Game2.default.selectedFigure = null;
 	
-	      this.figure.element.addEventListener('click', function () {
+					_Game2.default.turnEnd();
+				});
+			}
+		}, {
+			key: 'setFigureOnClick',
+			value: function setFigureOnClick() {
+				var _this2 = this;
 	
-	        if (!_this2.isAvailable(_this2.figure)) {
-	          _Game2.default.turnEnd();
-	          _this2.figure.searchNextAvailablePosition(_Game2.default.board.cells);
-	          _this2.figure.nextAvailableCells.forEach(function (cell) {
-	            cell.setAvailable();
-	          });
+				this.figure.element.addEventListener('click', function () {
 	
-	          _Game2.default.selectedFigure = _this2.figure;
-	        } else {
-	          _this2.beatFigure(_this2.figure);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'renderInitialFigure',
-	    value: function renderInitialFigure() {
-	      var figureDiv = document.createElement('div');
-	      figureDiv.className = 'figure';
-	      figureDiv.style.backgroundPosition = this.figure.position;
-	      figureDiv.style.left = this.x * 70 + 'px';
-	      figureDiv.style.top = this.y * 70 + 'px';
-	      figureDiv.id = this.figure.id;
+					if (!_this2.isAvailable(_this2.figure)) {
+						_Game2.default.turnEnd();
+						_this2.figure.searchNextAvailablePosition(_Game2.default.board.cells);
+						_this2.figure.nextAvailableCells.forEach(function (cell) {
+							cell.setAvailable();
+						});
 	
-	      this.figure.element = figureDiv;
-	      this.setFigureOnClick();
+						_Game2.default.selectedFigure = _this2.figure;
+					} else {
+						_this2.beatFigure(_this2.figure);
+					}
+				});
+			}
+		}, {
+			key: 'renderInitialFigure',
+			value: function renderInitialFigure() {
+				var figureDiv = document.createElement('div');
+				figureDiv.className = 'figure';
+				figureDiv.style.backgroundPosition = this.figure.position;
+				figureDiv.style.left = this.x * 70 + 'px';
+				figureDiv.style.top = this.y * 70 + 'px';
+				figureDiv.id = this.figure.id;
 	
-	      _Game2.default.board.element.appendChild(this.figure.element);
-	    }
-	  }, {
-	    key: 'setAvailable',
-	    value: function setAvailable() {
-	      this.element.classList.add('available');
-	      this.available = true;
-	    }
-	  }, {
-	    key: 'removeAvailable',
-	    value: function removeAvailable() {
-	      this.element.classList.remove('available');
-	      this.available = false;
-	    }
-	  }, {
-	    key: 'beatFigure',
-	    value: function beatFigure() {
+				this.figure.element = figureDiv;
+				this.setFigureOnClick();
 	
-	      this.figure.element.remove();
-	      _Game2.default.selectedFigure.move(this.figure);
-	      this.figure = _Game2.default.selectedFigure;
-	      _Game2.default.selectedFigure = null;
-	      _Game2.default.turnEnd();
+				_Game2.default.board.element.appendChild(this.figure.element);
+			}
+		}, {
+			key: 'setAvaible',
+			value: function setAvaible() {
+				this.element.classList.add('available');
+				this.available = true;
+			}
+		}, {
+			key: 'removeAvaible',
+			value: function removeAvaible() {
+				this.element.classList.remove('available');
+				this.available = false;
+			}
+		}, {
+			key: 'beatFigure',
+			value: function beatFigure() {
+				this.figure.element.remove();
+				_Game2.default.selectedFigure.move(this.figure);
+				this.figure = _Game2.default.selectedFigure;
+				_Game2.default.selectedFigure = null;
+				_Game2.default.turnEnd();
+			}
+		}, {
+			key: 'isEmpty',
+			value: function isEmpty() {
+				return !this.figure;
+			}
+		}, {
+			key: 'isAvailable',
+			value: function isAvailable(figure) {
+				return _Game2.default.board.cells[figure.y][figure.x].available;
+			}
+		}]);
 	
-	      console.log(this.figure);
-	    }
-	  }, {
-	    key: 'isEmpty',
-	    value: function isEmpty() {
-	      return !this.figure;
-	    }
-	  }, {
-	    key: 'isAvailable',
-	    value: function isAvailable(figure) {
-	      return _Game2.default.board.cells[figure.y][figure.x].available;
-	    }
-	  }]);
-	
-	  return BoardCell;
+		return BoardCell;
 	}();
 	
 	exports.default = BoardCell;
@@ -389,6 +379,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.color = color;
 	    this.x = x;
 	    this.y = y;
+	    this.firstStep = true;
 	    this.nextAvailableCells = null;
 	    this.element = null;
 	    this.position = this.getPosition();
@@ -407,11 +398,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
 	      var forwardCell = this.forwardCell(cells),
+	          forwardStep = this.getFirstStep(cells),
 	          otherCells = this.toBeat(cells),
 	          availableCells = [];
 	
 	      if (forwardCell.isEmpty()) {
 	        availableCells.push(forwardCell);
+	
+	        if (this.firstStep) {
+	          availableCells.push(forwardStep);
+	        }
 	      }
 	
 	      otherCells.forEach(function (cell) {
@@ -421,6 +417,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	
 	      this.nextAvailableCells = availableCells;
+	    }
+	  }, {
+	    key: 'getFirstStep',
+	    value: function getFirstStep(cells) {
+	      if (this.color === 'white') {
+	        return cells[this.y + 2][this.x];
+	      } else {
+	        return cells[this.y - 2][this.x];
+	      }
 	    }
 	  }, {
 	    key: 'forwardCell',
@@ -449,6 +454,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'move',
 	    value: function move(cell) {
+	      this.firstStep = false;
 	      console.log(cell.x, cell.y);
 	      this.x = cell.x;
 	      this.y = cell.y;

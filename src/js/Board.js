@@ -1,56 +1,51 @@
 import Cell from './BoardCell';
 
 export default class Board {
-
-	constructor(){
-		this.cells = [];
-		this.selectedFigure = null;
-		this.element = null;
+  constructor() {
+	 this.cells = [];
+	 this.selectedFigure = null;
+   this.element = null;
 	}
 
-	renderBoard(){
 
-		const board = document.getElementById('board');
+renderBoard() {
+	const board = document.getElementById('board');
+	this.getCells();
+	this.cells.forEach(row => {
+    row.forEach(cell => {
+      board.appendChild(cell.element);
+		})
+	});
 
-		this.getCells();
+	this.element = board;
+}
 
-		this.cells.forEach(row => {
-      row.forEach(cell => {
-        board.appendChild(cell.element);
-      })
-		});
+getCells() {
+	const white = 'white',
+				black = 'black';
 
-    this.element = board;
-	}
+				let arr = [];
 
-	getCells(){
-		const white = 'white',
-			  black = 'black';
+				for(let i = 0; i < 8; i++){
+          if(i % 2 === 0) {
+						arr.push(this.getRow(i, white, black))
+					} else {
+						arr.push(this.getRow(i, black, white))
+					}
+				}
 
-		let arr = [];
+}
 
-		for(let i = 0; i < 8; i++){
-			if(i % 2 === 0){
-        arr.push(this.getRow(i, white, black))
-			} else {
-        arr.push(this.getRow(i, black, white))
-			}
+getRow(y, firstColor, secondColor) {
+	const arr = [];
+
+	for(let i = 0; i < 8; i++){
+		if(i % 2 === 0) {
+			arr.push(new Cell(firstColor, i, y))
+		} else {
+			arr.push(new Cell(secondColor, i, y))
 		}
-
-		this.cells = arr;
 	}
+}
 
-	getRow(y, firstColor, secondColor){
-		const arr = [];
-
-		for(let i = 0; i < 8; i++){
-
-			if(i % 2 === 0){
-        arr.push(new Cell(firstColor, i, y))
-			} else {
-        arr.push(new Cell(secondColor, i, y))
-			}
-		}
-		return arr;
-	}
 }
