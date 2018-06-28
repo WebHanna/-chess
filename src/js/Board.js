@@ -33,7 +33,7 @@ getCells() {
 						arr.push(this.getRow(i, black, white))
 					}
 				}
-
+				this.cells = arr;
 }
 
 getRow(y, firstColor, secondColor) {
@@ -46,6 +46,6 @@ getRow(y, firstColor, secondColor) {
 			arr.push(new Cell(secondColor, i, y))
 		}
 	}
+	return arr;
 }
-
 }

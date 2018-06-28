@@ -199,6 +199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						arr.push(this.getRow(i, black, white));
 					}
 				}
+				this.cells = arr;
 			}
 		}, {
 			key: 'getRow',
@@ -212,6 +213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						arr.push(new _BoardCell2.default(secondColor, i, y));
 					}
 				}
+				return arr;
 			}
 		}]);
 	
