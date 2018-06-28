@@ -30,8 +30,10 @@ export default class Pawn {
     }
 
     otherCells.forEach(cell => {
-      if(!cell.isEmpty()){
-        availableCells.push(cell);
+      if(cell){
+        if(!cell.isEmpty() && cell.figure.color !== this.color){
+          availableCells.push(cell);
+        }
       }
     });
 
@@ -61,11 +63,13 @@ export default class Pawn {
   }
 
   move(cell){
-    console.log(cell.x, cell.y)
-    this.x = cell.x;
-    this.y = cell.y;
+    this.x = parseInt(cell.x);
+    this.y = parseInt(cell.y);
     this.element.style.left = cell.x * 70 + 'px';
     this.element.style.top = cell.y * 70 + 'px';
+
+    this.element.dataset.x = cell.x;
+    this.element.dataset.y = cell.y;
   }
 
 }

@@ -1,4 +1,5 @@
 import game from './Game';
+import _ from 'lodash'
 
 export default class BoardCell {
 
@@ -20,7 +21,6 @@ export default class BoardCell {
     cell.style.top = this.y * 70 + 'px';
     this.setCellOnClick(cell);
 
-
     return cell;
   }
 
@@ -30,11 +30,21 @@ export default class BoardCell {
   }
 
   setCellOnClick(cell){
-    cell.addEventListener('click', () => {
-      if(game.selectedFigure)
-        game.selectedFigure.move(this);
+    cell.addEventListener('click', (e) => {
 
-      game.selectedFigure = null;
+      const targetCell = e.target;
+      const currentFigure = _.cloneDeep(game.selectedFigure);
+      const currentCell = this.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
+
+      if(game.selectedFigure && currentCell.available){
+        game.board.cells[currentFigure.y][currentFigure.x].figure = null;
+        console.log('selectedFigure', currentFigure);
+        currentFigure.move({x: targetCell.dataset.x, y: targetCell.dataset.y});
+
+        currentCell.figure = currentFigure;
+        game.selectedFigure = null;
+        console.log('currentCell', game.board.cells[targetCell.dataset.y][targetCell.dataset.x]);
+      }
 
       game.turnEnd();
     });
@@ -42,18 +52,24 @@ export default class BoardCell {
 
   setFigureOnClick(){
 
-    this.figure.element.addEventListener('click', () => {
+    this.figure.element.addEventListener('click', (e) => {
 
-      if(!this.isAvailable(this.figure)){
+      const targetFigure = e.target;
+console.log('set', targetFigure.dataset)
+      if(!this.isAvailable(targetFigure.dataset)){
         game.turnEnd();
-        this.figure.searchNextAvailablePosition(game.board.cells);
-        this.figure.nextAvailableCells.forEach(cell => {
+
+        const currentFigureCell = this.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+
+        currentFigureCell.figure.searchNextAvailablePosition(game.board.cells);
+        currentFigureCell.figure.nextAvailableCells.forEach(cell => {
           cell.setAvailable()
         });
 
-        game.selectedFigure = this.figure;
+        game.selectedFigure = _.cloneDeep(currentFigureCell.figure);
       } else {
-        this.beatFigure(this.figure)
+        const currentFigureCell = this.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+        this.beatFigure(currentFigureCell)
       }
     });
   }
@@ -64,6 +80,8 @@ export default class BoardCell {
     figureDiv.style.backgroundPosition = this.figure.position;
     figureDiv.style.left = this.x * 70 + 'px';
     figureDiv.style.top = this.y * 70 + 'px';
+    figureDiv.dataset.x = this.x;
+    figureDiv.dataset.y = this.y;
     figureDiv.id = this.figure.id;
 
     this.figure.element = figureDiv;
@@ -82,15 +100,15 @@ export default class BoardCell {
     this.available = false;
   }
 
-  beatFigure(){
+  beatFigure(currentFigureCell){
 
-    this.figure.element.remove();
-    game.selectedFigure.move(this.figure);
-    this.figure = game.selectedFigure;
+    currentFigureCell.figure.element.remove();
+    game.selectedFigure.move(currentFigureCell.figure);
+    currentFigureCell.figure = _.cloneDeep(game.selectedFigure);
     game.selectedFigure = null;
     game.turnEnd();
 
-    console.log(this.figure);
+    console.log(currentFigureCell.figure);
   }
 
   isEmpty(){
@@ -99,6 +117,38 @@ export default class BoardCell {
 
   isAvailable(figure){
     return game.board.cells[figure.y][figure.x].available
+  }
+
+  findFigureByCoords(y, x){
+
+    let currentCell;
+
+    game.board.cells.forEach(rows => {
+      rows.forEach(cell => {
+        if(cell.figure){
+          if(cell.figure.y == y && cell.figure.x == x){
+            currentCell =  cell;
+          }
+        }
+      });
+    });
+
+    return currentCell;
+  }
+
+  findCellByCoords(y, x){
+
+    let currentCell;
+
+    game.board.cells.forEach(rows => {
+      rows.forEach(cell => {
+        if(cell.y == y && cell.x == x){
+          currentCell = cell;
+        }
+      });
+    });
+
+    return currentCell;
   }
 
 }
