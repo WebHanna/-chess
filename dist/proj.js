@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -89,53 +89,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Game = function () {
-		function Game() {
-			_classCallCheck(this, Game);
+	  function Game() {
+	    _classCallCheck(this, Game);
 	
-			this.board = new _Board2.default();
-			this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 1, y: 1, type: 'Pawn', color: 'white', id: 2 }, { x: 2, y: 1, type: 'Pawn', color: 'white', id: 3 }, { x: 1, y: 2, type: 'Pawn', color: 'black', id: 4 }, { x: 3, y: 1, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }];
-		}
+	    this.board = new _Board2.default();
+	    this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 1, y: 1, type: 'Pawn', color: 'white', id: 2 }, { x: 2, y: 1, type: 'Pawn', color: 'white', id: 3 }, { x: 1, y: 2, type: 'Pawn', color: 'black', id: 4 }, { x: 3, y: 1, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }];
+	  }
 	
-		_createClass(Game, [{
-			key: 'start',
-			value: function start() {
-				this.board.renderBoard();
-				this.setDefaultState();
-			}
-		}, {
-			key: 'setDefaultState',
-			value: function setDefaultState() {
-				var _this = this;
+	  _createClass(Game, [{
+	    key: 'start',
+	    value: function start() {
+	      this.board.renderBoard();
+	      this.setDefaultState();
+	    }
+	  }, {
+	    key: 'setDefaultState',
+	    value: function setDefaultState() {
+	      var _this = this;
 	
-				this.defaultFiguresState.forEach(function (initialFigure) {
-					_this.board.cells.forEach(function (row) {
-						row.forEach(function (cell) {
-							if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
-								cell.setFigure(_this.getInitiallFigure(initialFigure));
-							}
-						});
-					});
-				});
-			}
-		}, {
-			key: 'getInitiallFigure',
-			value: function getInitiallFigure(initialFigure) {
-				if (InitiallFigure.type === "Pawn") {
-					return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
-				}
-			}
-		}, {
-			key: 'turnEnd',
-			value: function turnEnd() {
-				this.board.cell.forEach(function (row) {
-					row.forEach(function (cell) {
-						cell.removeAvailable();
-					});
-				});
-			}
-		}]);
+	      this.defaultFiguresState.forEach(function (initialFigure) {
+	        _this.board.cells.forEach(function (row) {
+	          row.forEach(function (cell) {
+	            if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
+	              cell.setFigure(_this.getInitialFigure(initialFigure));
+	            }
+	          });
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'getInitialFigure',
+	    value: function getInitialFigure(initialFigure) {
+	      if (initialFigure.type === 'Pawn') {
+	        return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
+	      }
+	    }
+	  }, {
+	    key: 'turnEnd',
+	    value: function turnEnd() {
+	      this.board.cells.forEach(function (row) {
+	        row.forEach(function (cell) {
+	          cell.removeAvailable();
+	        });
+	      });
+	    }
+	  }]);
 	
-		return Game;
+	  return Game;
 	}();
 	
 	var game = new Game();
