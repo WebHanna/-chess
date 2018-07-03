@@ -1,7 +1,6 @@
 import Board from './Board';
 import Pawn from './figures/Pawn';
 import Rook from './figures/Rook';
-
 class Game {
 
 	constructor(){

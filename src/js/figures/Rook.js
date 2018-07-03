@@ -19,62 +19,71 @@ export default class Rook {
     }
   }
 
-  // searchNextAvailablePositionRook(f){
-  // console.log(47, f);
-
-  // }
-
   searchNextAvailablePosition(cells){
-    console.log("cells", cells);
+
     const forwardCell = this.forwardCell(cells),
-      otherCells = this.toBeat(cells),
+
       availableCells = [];
+      console.log(71, forwardCell);
+      forwardCell.forEach(cell => {
+        availableCells.push(cell);
+              // if(forwardCell) {
+    //   console.log(55, forwardCell);
+    //   availableCells.push(forwardCell);
 
-    if(forwardCell.isEmpty()){
-      availableCells.push(forwardCell);
+    //     const setFirstStep = this.setFirstStep(cells);
+    //     availableCells.push(setFirstStep);
 
-      if(this.firstStep) {
-        const setFirstStep = this.setFirstStep(cells);
-        availableCells.push(setFirstStep);
-      }
-    }
+    // }
+       })
 
-    otherCells.forEach(cell => {
-      if(cell){
-        if(!cell.isEmpty() && cell.figure.color !== this.color){
-          availableCells.push(cell);
-        }
-      }
-    });
+    // if(forwardCell) {
+    //   console.log(55, forwardCell);
+    //   availableCells.push(forwardCell);
+
+    //     const setFirstStep = this.setFirstStep(cells);
+    //     availableCells.push(setFirstStep);
+
+    // }
 
     this.nextAvailableCells = availableCells;
   }
 
   forwardCell(cells){
-    if(this.color === 'white'){
-      // for(let i = 0; i< )
-      return cells[this.y + 1][this.x]
-    } else {
-      return cells[this.y - 1][this.x]
+  let arr = [];
+
+  for(let i = 0; i < 8; i++) {
+    if(this.x != i) {
+      arr.push(cells[this.y][i]);
     }
   }
 
-  toBeat(cells){
-    const toBeatArr = [];
-
-    if(this.color === 'white'){
-      toBeatArr.push(cells[this.y + 1][this.x + 1]);
-      toBeatArr.push(cells[this.y + 1][this.x - 1]);
-    } else {
-      toBeatArr.push(cells[this.y - 1][this.x + 1]);
-      toBeatArr.push(cells[this.y - 1][this.x - 1]);
+  for(let i = 0; i < 8; i++) {
+    if(this.y != i) {
+      arr.push(cells[i][this.x]);
     }
-
-    return toBeatArr
   }
+    console.log("arr42", arr);
+    return arr;
+  }
+
+//
+  // toBeat(cells){
+  //   const toBeatArr = [];
+
+  //   if(this.color === 'white'){
+  //     toBeatArr.push(cells[this.y + 1][this.x + 1]);
+  //     toBeatArr.push(cells[this.y + 1][this.x - 1]);
+  //   } else {
+  //     toBeatArr.push(cells[this.y - 1][this.x + 1]);
+  //     toBeatArr.push(cells[this.y - 1][this.x - 1]);
+  //   }
+
+  //   return toBeatArr
+  // }
 
   move(cell){
-    this.firstStep = false;
+
     this.x = parseInt(cell.x);
     this.y = parseInt(cell.y);
     this.element.style.left = cell.x * 70 + 'px';

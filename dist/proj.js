@@ -17709,66 +17709,71 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return '-263px -418px';
 	      }
 	    }
-	
-	    // searchNextAvailablePositionRook(f){
-	    // console.log(47, f);
-	
-	    // }
-	
 	  }, {
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
-	      var _this = this;
 	
-	      console.log("cells", cells);
 	      var forwardCell = this.forwardCell(cells),
-	          otherCells = this.toBeat(cells),
 	          availableCells = [];
+	      console.log(71, forwardCell);
+	      forwardCell.forEach(function (cell) {
+	        availableCells.push(cell);
+	        // if(forwardCell) {
+	        //   console.log(55, forwardCell);
+	        //   availableCells.push(forwardCell);
 	
-	      if (forwardCell.isEmpty()) {
-	        availableCells.push(forwardCell);
+	        //     const setFirstStep = this.setFirstStep(cells);
+	        //     availableCells.push(setFirstStep);
 	
-	        if (this.firstStep) {
-	          var setFirstStep = this.setFirstStep(cells);
-	          availableCells.push(setFirstStep);
-	        }
-	      }
-	
-	      otherCells.forEach(function (cell) {
-	        if (cell) {
-	          if (!cell.isEmpty() && cell.figure.color !== _this.color) {
-	            availableCells.push(cell);
-	          }
-	        }
+	        // }
 	      });
+	
+	      // if(forwardCell) {
+	      //   console.log(55, forwardCell);
+	      //   availableCells.push(forwardCell);
+	
+	      //     const setFirstStep = this.setFirstStep(cells);
+	      //     availableCells.push(setFirstStep);
+	
+	      // }
 	
 	      this.nextAvailableCells = availableCells;
 	    }
 	  }, {
 	    key: 'forwardCell',
 	    value: function forwardCell(cells) {
-	      if (this.color === 'white') {
-	        // for(let i = 0; i< )
-	        return cells[this.y + 1][this.x];
-	      } else {
-	        return cells[this.y - 1][this.x];
-	      }
-	    }
-	  }, {
-	    key: 'toBeat',
-	    value: function toBeat(cells) {
-	      var toBeatArr = [];
+	      var arr = [];
 	
-	      if (this.color === 'white') {
-	        toBeatArr.push(cells[this.y + 1][this.x + 1]);
-	        toBeatArr.push(cells[this.y + 1][this.x - 1]);
-	      } else {
-	        toBeatArr.push(cells[this.y - 1][this.x + 1]);
-	        toBeatArr.push(cells[this.y - 1][this.x - 1]);
+	      for (var i = 0; i < 8; i++) {
+	        if (this.x != i) {
+	          arr.push(cells[this.y][i]);
+	        }
 	      }
 	
-	      return toBeatArr;
+	      for (var _i = 0; _i < 8; _i++) {
+	        if (this.y != _i) {
+	          arr.push(cells[_i][this.x]);
+	        }
+	      }
+	      console.log("arr42", arr);
+	      return arr;
 	    }
+	
+	    //
+	    // toBeat(cells){
+	    //   const toBeatArr = [];
+	
+	    //   if(this.color === 'white'){
+	    //     toBeatArr.push(cells[this.y + 1][this.x + 1]);
+	    //     toBeatArr.push(cells[this.y + 1][this.x - 1]);
+	    //   } else {
+	    //     toBeatArr.push(cells[this.y - 1][this.x + 1]);
+	    //     toBeatArr.push(cells[this.y - 1][this.x - 1]);
+	    //   }
+	
+	    //   return toBeatArr
+	    // }
+	
 	  }, {
 	    key: 'move',
 	    value: function move(cell) {
