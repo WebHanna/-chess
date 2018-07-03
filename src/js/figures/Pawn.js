@@ -1,4 +1,3 @@
-
 export default class Pawn {
 
   constructor(color, x, y, id){
@@ -23,33 +22,27 @@ export default class Pawn {
 
   searchNextAvailablePosition(cells){
     const forwardCell = this.forwardCell(cells),
-          forwardStep = this.getFirstStep(cells),
-          otherCells = this.toBeat(cells),
-          availableCells = [];
+      otherCells = this.toBeat(cells),
+      availableCells = [];
 
     if(forwardCell.isEmpty()){
       availableCells.push(forwardCell);
 
       if(this.firstStep) {
-        availableCells.push(forwardStep);
+        const setFirstStep = this.setFirstStep(cells);
+        availableCells.push(setFirstStep);
       }
     }
 
     otherCells.forEach(cell => {
-      if(!cell.isEmpty()){
-        availableCells.push(cell);
+      if(cell){
+        if(!cell.isEmpty() && cell.figure.color !== this.color){
+          availableCells.push(cell);
+        }
       }
     });
 
     this.nextAvailableCells = availableCells;
-  }
-
-  getFirstStep(cells) {
-    if(this.color === 'white'){
-      return cells[this.y + 2][this.x]
-    } else {
-      return cells[this.y - 2][this.x]
-    }
   }
 
   forwardCell(cells){
@@ -57,6 +50,14 @@ export default class Pawn {
       return cells[this.y + 1][this.x]
     } else {
       return cells[this.y - 1][this.x]
+    }
+  }
+
+  setFirstStep(cells){
+    if(this.color === 'white'){
+      return cells[this.y + 2][this.x]
+    } else {
+      return cells[this.y - 2][this.x]
     }
   }
 
@@ -76,10 +77,13 @@ export default class Pawn {
 
   move(cell){
     this.firstStep = false;
-    console.log(cell.x, cell.y)
-    this.x = cell.x;
-    this.y = cell.y;
+    this.x = parseInt(cell.x);
+    this.y = parseInt(cell.y);
     this.element.style.left = cell.x * 70 + 'px';
     this.element.style.top = cell.y * 70 + 'px';
+
+    this.element.dataset.x = cell.x;
+    this.element.dataset.y = cell.y;
   }
+
 }

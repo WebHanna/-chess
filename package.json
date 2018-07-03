@@ -53,5 +53,8 @@
   "babelBoilerplateOptions": {
     "entryFileName": "proj.js",
     "mainVarName": "n"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10"
   }
 }

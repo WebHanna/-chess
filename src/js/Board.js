@@ -7,7 +7,6 @@ export default class Board {
    this.element = null;
 	}
 
-
 renderBoard() {
 	const board = document.getElementById('board');
 	this.getCells();
