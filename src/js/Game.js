@@ -7,9 +7,11 @@ class Game {
 		this.board = new Board();
 		this.defaultFiguresState = [
       {x: 0, y: 1, type: 'Pawn', color: 'white', id: 1},
-      {x: 1, y: 1, type: 'Pawn', color: 'white', id: 2},
+      {x: 7, y: 0, type: 'Pawn', color: 'white', id: 84},
+      {x: 1, y: 3, type: 'Pawn', color: 'white', id: 2},
       {x: 3, y: 3, type: 'Pawn', color: 'white', id: 3},
-      {x: 2, y: 4, type: 'Pawn', color: 'black', id: 4},
+      {x: 2, y: 3, type: 'Pawn', color: 'black', id: 4},
+      {x: 3, y: 4, type: 'Pawn', color: 'black', id: 11},
       {x: 1, y: 5, type: 'Pawn', color: 'white', id: 5},
       {x: 4, y: 1, type: 'Pawn', color: 'white', id: 6},
       {x: 5, y: 1, type: 'Pawn', color: 'white', id: 7},

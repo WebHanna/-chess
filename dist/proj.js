@@ -97,7 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Game);
 	
 	    this.board = new _Board2.default();
-	    this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 1, y: 1, type: 'Pawn', color: 'white', id: 2 }, { x: 3, y: 3, type: 'Pawn', color: 'white', id: 3 }, { x: 2, y: 4, type: 'Pawn', color: 'black', id: 4 }, { x: 1, y: 5, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }, { x: 7, y: 3, type: 'Rook', color: 'white', id: 10 }];
+	    this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 7, y: 0, type: 'Pawn', color: 'white', id: 84 }, { x: 1, y: 3, type: 'Pawn', color: 'white', id: 2 }, { x: 3, y: 3, type: 'Pawn', color: 'white', id: 3 }, { x: 2, y: 3, type: 'Pawn', color: 'black', id: 4 }, { x: 3, y: 4, type: 'Pawn', color: 'black', id: 11 }, { x: 1, y: 5, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }, { x: 7, y: 3, type: 'Rook', color: 'white', id: 10 }];
 	  }
 	
 	  _createClass(Game, [{
@@ -17715,18 +17715,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      var forwardCell = this.forwardCell(cells),
 	          availableCells = [];
-	      console.log(71, forwardCell);
-	      forwardCell.forEach(function (cell) {
-	        availableCells.push(cell);
-	        // if(forwardCell) {
-	        //   console.log(55, forwardCell);
-	        //   availableCells.push(forwardCell);
 	
-	        //     const setFirstStep = this.setFirstStep(cells);
-	        //     availableCells.push(setFirstStep);
+	      //  console.log(71, forwardCell);
+	      // forwardCell.forEach( (cell, i) => {
+	      //  let j = i + 1;
+	      // if (cell.figure(i)) { }
 	
-	        // }
-	      });
+	      // console.log(1, j);
+	      // console.log(2, i);
+	      // console.log(3, cell.figure);
+	      // availableCells.push(cell);
+	      // if(forwardCell) {
+	      //   console.log(55, forwardCell);
+	      //   availableCells.push(forwardCell);
+	
+	      //     const setFirstStep = this.setFirstStep(cells);
+	      //     availableCells.push(setFirstStep);
+	
+	      // }
+	      // })
+	      var prev = 0;
+	
+	      for (var i = 0; i < forwardCell.length; i++) {
+	        var next = i + 1;
+	
+	        if (i != 0) {
+	          prev = i - 1;
+	        }
+	
+	        if (i === forwardCell.length) {
+	          next = i;
+	        }
+	
+	        var cell = forwardCell[i];
+	        var cellNext = forwardCell[next];
+	        var cellPrev = forwardCell[prev];
+	        console.log(3, cellNext);
+	        console.log(3, cellPrev);
+	
+	        if (cell.figure === null && cellNext.figure === null || cell.figure === null && cellPrev.figure === null) {
+	          availableCells.push(cell);
+	        }
+	        console.log(145, availableCells);
+	      }
 	
 	      // if(forwardCell) {
 	      //   console.log(55, forwardCell);
@@ -17755,7 +17786,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          arr.push(cells[_i][this.x]);
 	        }
 	      }
-	      console.log("arr42", arr);
 	      return arr;
 	    }
 	
@@ -17777,7 +17807,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'move',
 	    value: function move(cell) {
-	      this.firstStep = false;
+	
 	      this.x = parseInt(cell.x);
 	      this.y = parseInt(cell.y);
 	      this.element.style.left = cell.x * 70 + 'px';
