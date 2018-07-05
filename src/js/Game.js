@@ -17,7 +17,7 @@ class Game {
       {x: 5, y: 1, type: 'Pawn', color: 'white', id: 7},
       {x: 6, y: 1, type: 'Pawn', color: 'white', id: 8},
       {x: 7, y: 1, type: 'Pawn', color: 'white', id: 9},
-      {x: 7, y: 3, type: 'Rook', color: 'white', id: 10},
+      {x: 5, y: 3, type: 'Rook', color: 'white', id: 10},
     ]
 	}
 

@@ -25,95 +25,76 @@ export default class Rook {
 
       availableCells = [];
 
-    //  console.log(71, forwardCell);
-     // forwardCell.forEach( (cell, i) => {
-      //  let j = i + 1;
-        // if (cell.figure(i)) { }
-
-       // console.log(1, j);
-       // console.log(2, i);
-        // console.log(3, cell.figure);
-       // availableCells.push(cell);
-              // if(forwardCell) {
-    //   console.log(55, forwardCell);
-    //   availableCells.push(forwardCell);
-
-    //     const setFirstStep = this.setFirstStep(cells);
-    //     availableCells.push(setFirstStep);
-
-    // }
-      // })
-      let prev = 0;
-
-       for( let i = 0; i< forwardCell.length; i++) {
-         let next = i + 1;
-
-
-         if (i != 0) {
-           prev = i - 1;
-         }
-         console.log();
-         if (i === forwardCell.length) {
-          next = i;
-        }
-
-         let cell = forwardCell[i];
-         let cellNext = forwardCell[next];
-         let cellPrev = forwardCell[prev];
-         console.log(3, cellNext);
-         console.log(3, cellPrev);
-
-        if((cell.figure === null && cellNext.figure === null) || (cell.figure === null && cellPrev.figure === null) ) {
-          availableCells.push(cell);
-         }
-         console.log(145, availableCells)
-       }
-
-
-
-    // if(forwardCell) {
-    //   console.log(55, forwardCell);
-    //   availableCells.push(forwardCell);
-
-    //     const setFirstStep = this.setFirstStep(cells);
-    //     availableCells.push(setFirstStep);
-
-    // }
-
     this.nextAvailableCells = availableCells;
   }
 
+
   forwardCell(cells){
   let arr = [];
+  let i = this.y;
+  let j = this.x;
+  let first = true;
+  let two = true;
 
-  for(let i = 0; i < 8; i++) {
-    if(this.x != i ) {
-      arr.push(cells[this.y][i]);
+  while(j > 0) {
+    let prev = j - 1;
+
+    if(j === 0) {
+      // return ;
     }
+
+   cells.forEach(cell => {
+    cell.forEach(item => {
+      if (item.y === i && item.x === prev && first)  {
+          if(item.figure === null) {
+            arr.push(item);
+          } else if (item.figure != null) {
+            console.log(758, first);
+            first = false;
+            arr.push(item);
+          }
+        }
+      })
+    })
+    j--;
   }
 
-  for(let i = 0; i < 8; i++) {
-    if(this.y != i) {
-      arr.push(cells[i][this.x]);
-    }
+
+  while(j < 8) {
+    let next = j + 1;
+
+    // if(j === 0) {
+    //   // return ;
+    // }
+
+// console.log(75864);
+   cells.forEach(cell => {
+    cell.forEach(item => {
+      if (item.y === i && item.x === next && two)  {
+          if(item.figure === null) {
+            arr.push(item);
+          } else if (item.figure != null) {
+            console.log(758, first);
+            two = false;
+            arr.push(item);
+          }
+        }
+      })
+    })
+    j++;
   }
+
+  console.log(125, arr);
     return arr;
   }
 
-//
-  // toBeat(cells){
-  //   const toBeatArr = [];
 
-  //   if(this.color === 'white'){
-  //     toBeatArr.push(cells[this.y + 1][this.x + 1]);
-  //     toBeatArr.push(cells[this.y + 1][this.x - 1]);
-  //   } else {
-  //     toBeatArr.push(cells[this.y - 1][this.x + 1]);
-  //     toBeatArr.push(cells[this.y - 1][this.x - 1]);
-  //   }
 
-  //   return toBeatArr
-  // }
+  getElem(prev, elen, index) {
+    console.log("prev", prev);
+    console.log("elen", elen);
+    console.log("index", index);
+  }
 
   move(cell){
 
