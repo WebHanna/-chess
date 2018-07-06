@@ -97,33 +97,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Game);
 	
 	    this.board = new _Board2.default();
-	    this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 7, y: 0, type: 'Pawn', color: 'white', id: 84 }, { x: 1, y: 3, type: 'Pawn', color: 'white', id: 2 }, { x: 3, y: 3, type: 'Pawn', color: 'white', id: 3 }, { x: 2, y: 3, type: 'Pawn', color: 'black', id: 4 }, { x: 3, y: 4, type: 'Pawn', color: 'black', id: 11 }, { x: 1, y: 5, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }, { x: 7, y: 3, type: 'Rook', color: 'white', id: 10 }];
+	    this.defaultFiguresState = [{ x: 0, y: 1, type: 'Pawn', color: 'white' }, { x: 7, y: 0, type: 'Pawn', color: 'white' }, { x: 1, y: 3, type: 'Pawn', color: 'white' }, { x: 3, y: 3, type: 'Pawn', color: 'white' }, { x: 2, y: 3, type: 'Pawn', color: 'black' }, { x: 3, y: 4, type: 'Pawn', color: 'black' }, { x: 1, y: 5, type: 'Pawn', color: 'white' }, { x: 4, y: 1, type: 'Pawn', color: 'white' }, { x: 5, y: 1, type: 'Pawn', color: 'white' }, { x: 6, y: 1, type: 'Pawn', color: 'white' }, { x: 7, y: 1, type: 'Pawn', color: 'white' }, { x: 5, y: 3, type: 'Rook', color: 'white' }];
 	  }
 	
 	  _createClass(Game, [{
 	    key: 'start',
 	    value: function start() {
-	      this.board.renderBoard();
-	      this.setDefaultState();
+	      this.board._renderBoard();
+	      this._setDefaultState();
 	    }
 	  }, {
-	    key: 'setDefaultState',
-	    value: function setDefaultState() {
+	    key: '_setDefaultState',
+	    value: function _setDefaultState() {
 	      var _this = this;
 	
 	      this.defaultFiguresState.forEach(function (initialFigure) {
 	        _this.board.cells.forEach(function (row) {
 	          row.forEach(function (cell) {
 	            if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
-	              cell.setFigure(_this.getInitialFigure(initialFigure));
+	              cell.setFigure(_this._getInitialFigure(initialFigure));
 	            }
 	          });
 	        });
 	      });
 	    }
 	  }, {
-	    key: 'getInitialFigure',
-	    value: function getInitialFigure(initialFigure) {
+	    key: '_getInitialFigure',
+	    value: function _getInitialFigure(initialFigure) {
 	      if (initialFigure.type === 'Pawn') {
 	        return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      } else if (initialFigure.type === 'Rook') {
@@ -178,10 +178,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	
 		_createClass(Board, [{
-			key: 'renderBoard',
-			value: function renderBoard() {
+			key: '_renderBoard',
+			value: function _renderBoard() {
 				var board = document.getElementById('board');
-				this.getCells();
+				this._getCells();
 				this.cells.forEach(function (row) {
 					row.forEach(function (cell) {
 						board.appendChild(cell.element);
@@ -191,8 +191,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.element = board;
 			}
 		}, {
-			key: 'getCells',
-			value: function getCells() {
+			key: '_getCells',
+			value: function _getCells() {
 				var white = 'white',
 				    black = 'black';
 	
@@ -200,16 +200,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 				for (var i = 0; i < 8; i++) {
 					if (i % 2 === 0) {
-						arr.push(this.getRow(i, white, black));
+						arr.push(this._getRow(i, white, black));
 					} else {
-						arr.push(this.getRow(i, black, white));
+						arr.push(this._getRow(i, black, white));
 					}
 				}
 				this.cells = arr;
 			}
 		}, {
-			key: 'getRow',
-			value: function getRow(y, firstColor, secondColor) {
+			key: '_getRow',
+			value: function _getRow(y, firstColor, secondColor) {
 				var arr = [];
 	
 				for (var i = 0; i < 8; i++) {
@@ -260,20 +260,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.x = x;
 	    this.y = y;
 	    this.figure = null;
-	    this.element = this.createCell(color);
+	    this.element = this._createCell(color);
 	    this.available = null;
 	  }
 	
 	  _createClass(BoardCell, [{
-	    key: 'createCell',
-	    value: function createCell(color) {
+	    key: '_createCell',
+	    value: function _createCell(color) {
 	      var cell = document.createElement('div');
 	      cell.className = 'block ' + color;
 	      cell.dataset.x = this.x;
 	      cell.dataset.y = this.y;
 	      cell.style.left = this.x * 70 + 'px';
 	      cell.style.top = this.y * 70 + 'px';
-	      this.setCellOnClick(cell);
+	      this._setCellOnClick(cell);
 	
 	      return cell;
 	    }
@@ -281,18 +281,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'setFigure',
 	    value: function setFigure(figure) {
 	      this.figure = figure;
-	      this.renderInitialFigure();
+	      this._renderInitialFigure();
 	    }
 	  }, {
-	    key: 'setCellOnClick',
-	    value: function setCellOnClick(cell) {
+	    key: '_setCellOnClick',
+	    value: function _setCellOnClick(cell) {
 	      var _this = this;
 	
 	      cell.addEventListener('click', function (e) {
 	
 	        var targetCell = e.target;
 	        var currentFigure = _lodash2.default.cloneDeep(_Game2.default.selectedFigure);
-	        var currentCell = _this.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
+	        var currentCell = _this._findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
 	
 	        if (_Game2.default.selectedFigure && currentCell.available) {
 	          _Game2.default.board.cells[currentFigure.y][currentFigure.x].figure = null;
@@ -308,18 +308,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  }, {
-	    key: 'setFigureOnClick',
-	    value: function setFigureOnClick() {
+	    key: '_setFigureOnClick',
+	    value: function _setFigureOnClick() {
 	      var _this2 = this;
 	
 	      this.figure.element.addEventListener('click', function (e) {
 	
 	        var targetFigure = e.target;
 	        console.log('set', targetFigure.dataset);
-	        if (!_this2.isAvailable(targetFigure.dataset)) {
+	        if (!_this2._isAvailable(targetFigure.dataset)) {
 	          _Game2.default.turnEnd();
 	
-	          var currentFigureCell = _this2.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+	          var currentFigureCell = _this2._findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
 	          console.log("currentCell45", currentFigureCell);
 	          currentFigureCell.figure.searchNextAvailablePosition(_Game2.default.board.cells);
 	          // currentFigureCell.figure.searchNextAvailablePositionRook(game.board);
@@ -329,14 +329,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          _Game2.default.selectedFigure = _lodash2.default.cloneDeep(currentFigureCell.figure);
 	        } else {
-	          var _currentFigureCell = _this2.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-	          _this2.beatFigure(_currentFigureCell);
+	          var _currentFigureCell = _this2._findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+	          _this2._beatFigure(_currentFigureCell);
 	        }
 	      });
 	    }
 	  }, {
-	    key: 'renderInitialFigure',
-	    value: function renderInitialFigure() {
+	    key: '_renderInitialFigure',
+	    value: function _renderInitialFigure() {
 	      var figureDiv = document.createElement('div');
 	      figureDiv.className = 'figure';
 	      figureDiv.style.backgroundPosition = this.figure.position;
@@ -347,7 +347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      figureDiv.id = this.figure.id;
 	
 	      this.figure.element = figureDiv;
-	      this.setFigureOnClick();
+	      this._setFigureOnClick();
 	
 	      _Game2.default.board.element.appendChild(this.figure.element);
 	    }
@@ -364,8 +364,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.available = false;
 	    }
 	  }, {
-	    key: 'beatFigure',
-	    value: function beatFigure(currentFigureCell) {
+	    key: '_beatFigure',
+	    value: function _beatFigure(currentFigureCell) {
 	      var currentFigure = _lodash2.default.cloneDeep(_Game2.default.selectedFigure);
 	
 	      currentFigureCell.figure.element.remove();
@@ -381,13 +381,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return !this.figure;
 	    }
 	  }, {
-	    key: 'isAvailable',
-	    value: function isAvailable(figure) {
+	    key: '_isAvailable',
+	    value: function _isAvailable(figure) {
 	      return _Game2.default.board.cells[figure.y][figure.x].available;
 	    }
 	  }, {
-	    key: 'findFigureByCoords',
-	    value: function findFigureByCoords(y, x) {
+	    key: '_findFigureByCoords',
+	    value: function _findFigureByCoords(y, x) {
 	
 	      var currentCell = void 0;
 	
@@ -404,8 +404,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return currentCell;
 	    }
 	  }, {
-	    key: 'findCellByCoords',
-	    value: function findCellByCoords(y, x) {
+	    key: '_findCellByCoords',
+	    value: function _findCellByCoords(y, x) {
 	
 	      var currentCell = void 0;
 	
@@ -17580,12 +17580,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.firstStep = true;
 	    this.nextAvailableCells = null;
 	    this.element = null;
-	    this.position = this.getPosition();
+	    this.position = this._getPosition();
 	  }
 	
 	  _createClass(Pawn, [{
-	    key: 'getPosition',
-	    value: function getPosition() {
+	    key: '_getPosition',
+	    value: function _getPosition() {
 	      if (this.color === 'white') {
 	        return '-595px -116px';
 	      } else {
@@ -17597,15 +17597,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function searchNextAvailablePosition(cells) {
 	      var _this = this;
 	
-	      var forwardCell = this.forwardCell(cells),
-	          otherCells = this.toBeat(cells),
+	      var forwardCell = this._forwardCell(cells),
+	          otherCells = this._toBeat(cells),
 	          availableCells = [];
 	
 	      if (forwardCell.isEmpty()) {
 	        availableCells.push(forwardCell);
 	
 	        if (this.firstStep) {
-	          var setFirstStep = this.setFirstStep(cells);
+	          var setFirstStep = this._setFirstStep(cells);
 	          availableCells.push(setFirstStep);
 	        }
 	      }
@@ -17621,8 +17621,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.nextAvailableCells = availableCells;
 	    }
 	  }, {
-	    key: 'forwardCell',
-	    value: function forwardCell(cells) {
+	    key: '_forwardCell',
+	    value: function _forwardCell(cells) {
 	      if (this.color === 'white') {
 	        return cells[this.y + 1][this.x];
 	      } else {
@@ -17630,8 +17630,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
-	    key: 'setFirstStep',
-	    value: function setFirstStep(cells) {
+	    key: '_setFirstStep',
+	    value: function _setFirstStep(cells) {
 	      if (this.color === 'white') {
 	        return cells[this.y + 2][this.x];
 	      } else {
@@ -17639,8 +17639,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
-	    key: 'toBeat',
-	    value: function toBeat(cells) {
+	    key: '_toBeat',
+	    value: function _toBeat(cells) {
 	      var toBeatArr = [];
 	
 	      if (this.color === 'white') {
@@ -17697,12 +17697,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.y = y;
 	    this.nextAvailableCells = null;
 	    this.element = null;
-	    this.position = this.getPosition();
+	    this.position = this._getPosition();
 	  }
 	
 	  _createClass(Rook, [{
-	    key: 'getPosition',
-	    value: function getPosition() {
+	    key: '_getPosition',
+	    value: function _getPosition() {
 	      if (this.color === 'white') {
 	        return '-263px -315px';
 	      } else {
@@ -17713,97 +17713,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
 	
-	      var forwardCell = this.forwardCell(cells),
+	      var forwardCell = this._forwardCell(cells),
 	          availableCells = [];
-	
-	      //  console.log(71, forwardCell);
-	      // forwardCell.forEach( (cell, i) => {
-	      //  let j = i + 1;
-	      // if (cell.figure(i)) { }
-	
-	      // console.log(1, j);
-	      // console.log(2, i);
-	      // console.log(3, cell.figure);
-	      // availableCells.push(cell);
-	      // if(forwardCell) {
-	      //   console.log(55, forwardCell);
-	      //   availableCells.push(forwardCell);
-	
-	      //     const setFirstStep = this.setFirstStep(cells);
-	      //     availableCells.push(setFirstStep);
-	
-	      // }
-	      // })
-	      var prev = 0;
-	
-	      for (var i = 0; i < forwardCell.length; i++) {
-	        var next = i + 1;
-	
-	        if (i != 0) {
-	          prev = i - 1;
-	        }
-	
-	        if (i === forwardCell.length) {
-	          next = i;
-	        }
-	
-	        var cell = forwardCell[i];
-	        var cellNext = forwardCell[next];
-	        var cellPrev = forwardCell[prev];
-	        console.log(3, cellNext);
-	        console.log(3, cellPrev);
-	
-	        if (cell.figure === null && cellNext.figure === null || cell.figure === null && cellPrev.figure === null) {
-	          availableCells.push(cell);
-	        }
-	        console.log(145, availableCells);
-	      }
-	
-	      // if(forwardCell) {
-	      //   console.log(55, forwardCell);
-	      //   availableCells.push(forwardCell);
-	
-	      //     const setFirstStep = this.setFirstStep(cells);
-	      //     availableCells.push(setFirstStep);
-	
-	      // }
 	
 	      this.nextAvailableCells = availableCells;
 	    }
 	  }, {
-	    key: 'forwardCell',
-	    value: function forwardCell(cells) {
+	    key: '_forwardCell',
+	    value: function _forwardCell(cells) {
 	      var arr = [];
+	      var i = this.y;
+	      var j = this.x;
+	      var first = true;
+	      var two = true;
 	
-	      for (var i = 0; i < 8; i++) {
-	        if (this.x != i) {
-	          arr.push(cells[this.y][i]);
+	      var _loop = function _loop() {
+	        var prev = j - 1;
+	
+	        if (j === 0) {
+	          // return ;
 	        }
+	
+	        cells.forEach(function (cell) {
+	          cell.forEach(function (item) {
+	            if (item.y === i && item.x === prev && first) {
+	              if (item.figure === null) {
+	                arr.push(item);
+	              } else if (item.figure != null) {
+	                console.log(758, first);
+	                first = false;
+	                arr.push(item);
+	              }
+	            }
+	          });
+	        });
+	        j--;
+	      };
+	
+	      while (j > 0) {
+	        _loop();
 	      }
 	
-	      for (var _i = 0; _i < 8; _i++) {
-	        if (this.y != _i) {
-	          arr.push(cells[_i][this.x]);
-	        }
+	      var _loop2 = function _loop2() {
+	        var next = j + 1;
+	
+	        // if(j === 0) {
+	        //   // return ;
+	        // }
+	
+	        // console.log(75864);
+	        cells.forEach(function (cell) {
+	          cell.forEach(function (item) {
+	            if (item.y === i && item.x === next && two) {
+	              if (item.figure === null) {
+	                arr.push(item);
+	              } else if (item.figure != null) {
+	                console.log(758, first);
+	                two = false;
+	                arr.push(item);
+	              }
+	            }
+	          });
+	        });
+	        j++;
+	      };
+	
+	      while (j < 8) {
+	        _loop2();
 	      }
+	
+	      console.log(125, arr);
 	      return arr;
 	    }
-	
-	    //
-	    // toBeat(cells){
-	    //   const toBeatArr = [];
-	
-	    //   if(this.color === 'white'){
-	    //     toBeatArr.push(cells[this.y + 1][this.x + 1]);
-	    //     toBeatArr.push(cells[this.y + 1][this.x - 1]);
-	    //   } else {
-	    //     toBeatArr.push(cells[this.y - 1][this.x + 1]);
-	    //     toBeatArr.push(cells[this.y - 1][this.x - 1]);
-	    //   }
-	
-	    //   return toBeatArr
-	    // }
-	
+	  }, {
+	    key: 'getElem',
+	    value: function getElem(prev, elen, index) {
+	      console.log("prev", prev);
+	      console.log("elen", elen);
+	      console.log("index", index);
+	    }
 	  }, {
 	    key: 'move',
 	    value: function move(cell) {

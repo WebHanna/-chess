@@ -8,10 +8,10 @@ export default class Rook {
     this.y = y;
     this.nextAvailableCells = null;
     this.element = null;
-    this.position = this.getPosition()
+    this.position = this._getPosition()
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-263px -315px';
     } else {
@@ -21,7 +21,7 @@ export default class Rook {
 
   searchNextAvailablePosition(cells){
 
-    const forwardCell = this.forwardCell(cells),
+    const forwardCell = this._forwardCell(cells),
 
       availableCells = [];
 
@@ -29,7 +29,7 @@ export default class Rook {
   }
 
 
-  forwardCell(cells){
+  _forwardCell(cells){
   let arr = [];
   let i = this.y;
   let j = this.x;

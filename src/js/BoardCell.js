@@ -8,33 +8,33 @@ export default class BoardCell {
     this.x = x;
     this.y = y;
     this.figure = null;
-    this.element = this.createCell(color);
+    this.element = this._createCell(color);
     this.available = null;
   }
 
-  createCell(color) {
+  _createCell(color) {
     const cell = document.createElement('div');
     cell.className = 'block ' + color;
     cell.dataset.x = this.x;
     cell.dataset.y = this.y;
     cell.style.left = this.x * 70 + 'px';
     cell.style.top = this.y * 70 + 'px';
-    this.setCellOnClick(cell);
+    this._setCellOnClick(cell);
 
     return cell;
   }
 
   setFigure(figure) {
     this.figure = figure;
-    this.renderInitialFigure();
+    this._renderInitialFigure();
   }
 
-  setCellOnClick(cell){
+  _setCellOnClick(cell){
     cell.addEventListener('click', (e) => {
 
       const targetCell = e.target;
       const currentFigure = _.cloneDeep(game.selectedFigure);
-      const currentCell = this.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
+      const currentCell = this._findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
 
       if(game.selectedFigure && currentCell.available){
         game.board.cells[currentFigure.y][currentFigure.x].figure = null;
@@ -50,16 +50,16 @@ export default class BoardCell {
     });
   }
 
-  setFigureOnClick(){
+  _setFigureOnClick(){
 
     this.figure.element.addEventListener('click', (e) => {
 
       const targetFigure = e.target;
       console.log('set', targetFigure.dataset)
-      if(!this.isAvailable(targetFigure.dataset)){
+      if(!this._isAvailable(targetFigure.dataset)){
         game.turnEnd();
 
-        const currentFigureCell = this.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+        const currentFigureCell = this._findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
         console.log("currentCell45", currentFigureCell);
         currentFigureCell.figure.searchNextAvailablePosition(game.board.cells);
        // currentFigureCell.figure.searchNextAvailablePositionRook(game.board);
@@ -69,13 +69,13 @@ export default class BoardCell {
 
         game.selectedFigure = _.cloneDeep(currentFigureCell.figure);
       } else {
-        const currentFigureCell = this.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-        this.beatFigure(currentFigureCell)
+        const currentFigureCell = this._findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+        this._beatFigure(currentFigureCell)
       }
     });
   }
 
-  renderInitialFigure() {
+  _renderInitialFigure() {
     const figureDiv = document.createElement('div');
     figureDiv.className = 'figure';
     figureDiv.style.backgroundPosition = this.figure.position;
@@ -86,7 +86,7 @@ export default class BoardCell {
     figureDiv.id = this.figure.id;
 
     this.figure.element = figureDiv;
-    this.setFigureOnClick();
+    this._setFigureOnClick();
 
     game.board.element.appendChild(this.figure.element);
   }
@@ -101,7 +101,7 @@ export default class BoardCell {
     this.available = false;
   }
 
-  beatFigure(currentFigureCell){
+  _beatFigure(currentFigureCell){
     const currentFigure = _.cloneDeep(game.selectedFigure);
 
     currentFigureCell.figure.element.remove();
@@ -117,11 +117,11 @@ export default class BoardCell {
     return !this.figure;
   }
 
-  isAvailable(figure){
+  _isAvailable(figure){
     return game.board.cells[figure.y][figure.x].available
   }
 
-  findFigureByCoords(y, x){
+  _findFigureByCoords(y, x){
 
     let currentCell;
 
@@ -138,7 +138,7 @@ export default class BoardCell {
     return currentCell;
   }
 
-  findCellByCoords(y, x){
+  _findCellByCoords(y, x){
 
     let currentCell;
 

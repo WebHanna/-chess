@@ -7,9 +7,9 @@ export default class Board {
    this.element = null;
 	}
 
-renderBoard() {
+_renderBoard() {
 	const board = document.getElementById('board');
-	this.getCells();
+	this._getCells();
 	this.cells.forEach(row => {
     row.forEach(cell => {
       board.appendChild(cell.element);
@@ -19,7 +19,7 @@ renderBoard() {
 	this.element = board;
 }
 
-getCells() {
+_getCells() {
 	const white = 'white',
 				black = 'black';
 
@@ -27,15 +27,15 @@ getCells() {
 
 				for(let i = 0; i < 8; i++){
           if(i % 2 === 0) {
-						arr.push(this.getRow(i, white, black))
+						arr.push(this._getRow(i, white, black))
 					} else {
-						arr.push(this.getRow(i, black, white))
+						arr.push(this._getRow(i, black, white))
 					}
 				}
 				this.cells = arr;
 }
 
-getRow(y, firstColor, secondColor) {
+_getRow(y, firstColor, secondColor) {
 	const arr = [];
 
 	for(let i = 0; i < 8; i++){

@@ -9,10 +9,10 @@ export default class Pawn {
     this.firstStep = true;
     this.nextAvailableCells = null;
     this.element = null;
-    this.position = this.getPosition()
+    this.position = this._getPosition()
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-595px -116px';
     } else {
@@ -21,15 +21,15 @@ export default class Pawn {
   }
 
   searchNextAvailablePosition(cells){
-    const forwardCell = this.forwardCell(cells),
-      otherCells = this.toBeat(cells),
+    const forwardCell = this._forwardCell(cells),
+      otherCells = this._toBeat(cells),
       availableCells = [];
 
     if(forwardCell.isEmpty()){
       availableCells.push(forwardCell);
 
       if(this.firstStep) {
-        const setFirstStep = this.setFirstStep(cells);
+        const setFirstStep = this._setFirstStep(cells);
         availableCells.push(setFirstStep);
       }
     }
@@ -45,7 +45,7 @@ export default class Pawn {
     this.nextAvailableCells = availableCells;
   }
 
-  forwardCell(cells){
+  _forwardCell(cells){
     if(this.color === 'white'){
       return cells[this.y + 1][this.x]
     } else {
@@ -53,7 +53,7 @@ export default class Pawn {
     }
   }
 
-  setFirstStep(cells){
+  _setFirstStep(cells){
     if(this.color === 'white'){
       return cells[this.y + 2][this.x]
     } else {
@@ -61,7 +61,7 @@ export default class Pawn {
     }
   }
 
-  toBeat(cells){
+  _toBeat(cells){
     const toBeatArr = [];
 
     if(this.color === 'white'){
