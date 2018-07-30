@@ -21,6 +21,7 @@ export default class Horse {
   }
 
   searchNextAvailablePosition(cells){
+		console.log(125);
     this.nextAvailableCells = [];
     this.nextAvailableCells = this.nextAvailableCells.concat(this._findAll(cells));
   }
