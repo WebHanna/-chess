@@ -1,5 +1,6 @@
 import game from './Game';
-import _ from 'lodash'
+import figuresManager from './FiguresManager';
+import _ from 'lodash';
 
 export default class BoardCell {
 
@@ -8,11 +9,11 @@ export default class BoardCell {
     this.x = x;
     this.y = y;
     this.figure = null;
-    this.element = this._createCell(color);
+    this.element = this.createCell(color);
     this.available = null;
   }
 
-  _createCell(color) {
+  createCell(color) {
     const cell = document.createElement('div');
     cell.className = 'block ' + color;
     cell.dataset.x = this.x;
@@ -34,61 +35,45 @@ export default class BoardCell {
 
       const targetCell = e.target;
       const currentFigure = _.cloneDeep(game.selectedFigure);
-      const currentCell = this._findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
-
+      const currentCell = figuresManager.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
       if(game.selectedFigure && currentCell.available){
-        game.board.cells[currentFigure.y][currentFigure.x].figure = null;
-        console.log('selectedFigure', currentFigure);
-        currentFigure.move({x: targetCell.dataset.x, y: targetCell.dataset.y});
+        figuresManager._removeFigureFromCell(currentFigure.y, currentFigure.x);
 
+        figuresManager.moveFigure({x: targetCell.dataset.x, y: targetCell.dataset.y}, currentFigure);
         currentCell.figure = currentFigure;
         game.selectedFigure = null;
-        console.log('currentCell', game.board.cells[targetCell.dataset.y][targetCell.dataset.x]);
       }
+
+
 
       game.turnEnd();
     });
   }
 
   _setFigureOnClick(){
-
     this.figure.element.addEventListener('click', (e) => {
-
+      figuresManager.checkMate();
       const targetFigure = e.target;
-      console.log('set', targetFigure.dataset)
-      if(!this._isAvailable(targetFigure.dataset)){
+      if(!this.isAvailable(targetFigure.dataset)){
         game.turnEnd();
 
-        const currentFigureCell = this._findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-        console.log("currentCell45", currentFigureCell);
-        currentFigureCell.figure.searchNextAvailablePosition(game.board.cells);
-       // currentFigureCell.figure.searchNextAvailablePositionRook(game.board);
-        currentFigureCell.figure.nextAvailableCells.forEach(cell => {
-          cell.setAvailable()
-        });
+        const currentFigureCell = figuresManager.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+
+        this.setAvailableNextCells(currentFigureCell);
 
         game.selectedFigure = _.cloneDeep(currentFigureCell.figure);
       } else {
-        const currentFigureCell = this._findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-        this._beatFigure(currentFigureCell)
+        const currentFigureCell = figuresManager.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+
+        figuresManager.beatFigure(currentFigureCell);
       }
     });
   }
 
-  _renderInitialFigure() {
-    const figureDiv = document.createElement('div');
-    figureDiv.className = 'figure';
-    figureDiv.style.backgroundPosition = this.figure.position;
-    figureDiv.style.left = this.x * 70 + 'px';
-    figureDiv.style.top = this.y * 70 + 'px';
-    figureDiv.dataset.x = this.x;
-    figureDiv.dataset.y = this.y;
-    figureDiv.id = this.figure.id;
-
-    this.figure.element = figureDiv;
-    this._setFigureOnClick();
-
-    game.board.element.appendChild(this.figure.element);
+  setAvailableNextCells(currentFigureCell){
+    // console.log("currentFigureCell", currentFigureCell);
+    currentFigureCell.figure.searchNextAvailablePosition(game.board.cells);
+    currentFigureCell.figure.nextAvailableCells.forEach(cell => {cell.setAvailable()});
   }
 
   setAvailable(){
@@ -101,56 +86,31 @@ export default class BoardCell {
     this.available = false;
   }
 
-  _beatFigure(currentFigureCell){
-    const currentFigure = _.cloneDeep(game.selectedFigure);
-
-    currentFigureCell.figure.element.remove();
-    game.board.cells[currentFigure.y][currentFigure.x].figure = null;
-    game.selectedFigure.move(currentFigureCell.figure);
-    currentFigureCell.figure = currentFigure;
-    game.selectedFigure = null;
-    game.turnEnd();
-
-  }
-
   isEmpty(){
     return !this.figure;
   }
 
-  _isAvailable(figure){
+  isAvailable(figure){
     return game.board.cells[figure.y][figure.x].available
   }
 
-  _findFigureByCoords(y, x){
+  _renderInitialFigure() {
+    const figureDiv = document.createElement('div');
+    figureDiv.className = 'figure';
+    figureDiv.style.backgroundPosition = this.figure.position;
+    figureDiv.style.left = this.x * 70 + 'px';
+    figureDiv.style.top = this.y * 70 + 'px';
+    figureDiv.dataset.x = this.x;
+    figureDiv.dataset.y = this.y;
 
-    let currentCell;
+    if(this.figure.id) {
+      figureDiv.id = this.figure.id;
+    }
 
-    game.board.cells.forEach(rows => {
-      rows.forEach(cell => {
-        if(cell.figure){
-          if(cell.figure.y == y && cell.figure.x == x){
-            currentCell =  cell;
-          }
-        }
-      });
-    });
+    this.figure.element = figureDiv;
+    this._setFigureOnClick();
 
-    return currentCell;
+    game.board.element.appendChild(this.figure.element);
   }
-
-  _findCellByCoords(y, x){
-
-    let currentCell;
-
-    game.board.cells.forEach(rows => {
-      rows.forEach(cell => {
-        if(cell.y == y && cell.x == x){
-          currentCell = cell;
-        }
-      });
-    });
-
-    return currentCell;
-  }
-
 }
+

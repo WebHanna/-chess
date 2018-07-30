@@ -53,133 +53,27 @@
         border: 1px solid black;
     }
 
+    #beatBlack, #beatWhite {
+        height: 140px;
+        width: 560px;
+        position: relative;
+        border: 1px solid black;
+    }
+
+    #beatBlack {
+        margin-bottom: 20px;
+    }
+
+    #beatWhite {
+        margin-top: 20px;
+    }
+
 </style>
 <br>
-
-<div class="turn"></div>
-<button id="cancel">Отмена хода</button>
-<div id="board"></div>
-<script src="dist/proj.min.js"></script>
-<script>
-//     window.onload = function() {
-//
-// 	function drawChess(){
-// 		let mainBlock = document.querySelector('.main-block');
-// 		let block, figure;
-// 		let flag = true;
-//
-//     let figures = {
-//         0 : ['-263px -19px', '-484px -22px', '-372px -17px', '-41px -16px', '-150px -16px','-372px -17px', '-484px -22px','-263px -19px'],
-//         1 : ['-595px -19px', '-595px -19px', '-595px -19px', '-595px -19px', '-595px -19px','-595px -19px', '-595px -19px','-595px -19px'],
-//         6 : ['-595px -116px', '-595px -116px', '-595px -116px', '-595px -116px', '-595px -116px','-595px -116px', '-595px -116px','-595px -116px'],
-//         7 : ['-263px -116px', '-484px -116px', '-372px -116px', '-150px -116px', '-41px -116px','-372px -116px', '-484px -116px','-263px -116px'],
-//     };
-//
-//     for (let i = 0; i<8; i++){
-//         for (let j = 0; j<8; j++){
-//             if (j==0) flag = !flag;
-//
-//             block = document.createElement('div');
-//             figure = document.createElement('div');
-//             if (flag) block.className = 'block black';
-//             else block.className = 'block white';
-//
-//          if (figures[i]!==undefined && figures[i][j]!==undefined){
-// 		  if(i == 0 || i == 1) {
-// 			  figure.className = "figure figure--black";
-// 			 } else {
-// 		      figure.className = "figure figure--white";
-// 			 }
-// 			  figure.style.backgroundPosition = figures[i][j];
-// 			  block.appendChild(figure);
-//            }
-//
-//             mainBlock.appendChild(block);
-//             flag = !flag;
-//         }
-//     }
-// }
-//
-// drawChess();
-//
-//              let isWhiteTurn = true;
-//
-//
-//        $('.figure--white').on('mousedown', function (e) { // 1. отследить нажатие
-//             if(!isWhiteTurn) return;
-// 			// console.log(1, e.target);
-// 			const  position = e.target.style.backgroundPosition;
-// 			if(position == '-595px -116px' ) {
-// 			   e.target.className = 'figure figure--white pawn';
-// 			} else if (position == '-150px -116px'){
-// 			   e.target.className = 'figure figure--white queen';
-// 			}
-//
-//             moveElement(e)
-//         });
-//
-//         $('.figure--black').on('mousedown', function (e) { // 1. отследить нажатие
-//             if(isWhiteTurn) return;
-// 				const  position = e.target.style.backgroundPosition;
-// 			if(e.target.style.backgroundPosition == '-150px -16px' ) {
-// 			   e.target.className = 'figure figure--black pawn';
-// 			} else if (position == '-150px -116px'){
-// 			   e.target.className = 'figure figure--black queen';
-// 			}
-//
-//             moveElement(e)
-//         });
-//
-//
-//         function moveElement(e) {
-//
-//             var target = e.target;
-//
-//             target.style.position = 'absolute';
-//             moveAt(e);
-//             // переместим в body, чтобы мяч был точно не внутри position:relative
-//             document.body.appendChild(target);
-//
-//             target.style.zIndex = 1000; // показывать мяч над другими элементами
-//
-//             // передвинуть мяч под координаты курсора
-//             // и сдвинуть на половину ширины/высоты для центрирования
-//             function moveAt(e) {
-//                 target.style.left = e.pageX - target.offsetWidth / 2 + 'px';
-//                 target.style.top = e.pageY - target.offsetHeight / 2 + 'px';
-//             }
-//
-//             // 3, перемещать по экрану
-//             document.onmousemove = function (e) {
-//                 moveAt(e);
-//             };
-//
-//             // 4. отследить окончание переноса
-//             target.onmouseup = function () {
-//                 document.onmousemove = null;
-//                 target.onmouseup = null;
-//                 isWhiteTurn = !isWhiteTurn;
-//                 turn();
-//             }
-//         }
-//
-//         function turn() {
-//             if(isWhiteTurn){
-//                 $('.turn').text('Ходят белые');
-//             } else {
-//                 $('.turn').text('Ходят черные');
-//             }
-//         }
-//
-//         turn();
-//
-//         $('#cancel').click(function () {
-//             isWhiteTurn = !isWhiteTurn;
-//             turn();
-//         });
-//     }
-
-
-</script>
+    <div class="turn"></div>
+    <div id="beatBlack"></div>
+    <div id="board"></div>
+    <div id="beatWhite"></div>
+    <script src="dist/proj.min.js"></script>
 </body>
 </html>
