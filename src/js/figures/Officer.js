@@ -2,8 +2,7 @@
 
 export default class Officer {
 
-  constructor(color, x, y, id){
-    this.id = id;
+  constructor(color, x, y){
     this.type = 'Officer';
     this.color = color;
     this.x = x;

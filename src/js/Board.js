@@ -67,7 +67,7 @@ export default class Board {
 	}
 
 	renderOnBoard(figure, x, y){
-	  this.cells[y][x].setFigure(game.getInitialFigure({x,y, type: figure.type, color: figure.color, id: figure.id}));
+	  this.cells[y][x].setFigure(game.getInitialFigure({x,y, type: figure.type, color: figure.color}));
   }
 
 	_getCells(){

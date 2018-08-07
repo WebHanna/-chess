@@ -2,8 +2,7 @@
 
 export default class King {
 
-  constructor(color, x, y, id){
-    this.id = id;
+  constructor(color, x, y){
     this.type = 'King';
     this.color = color;
     this.x = x;

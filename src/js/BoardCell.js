@@ -114,7 +114,6 @@ export default class BoardCell {
     figureDiv.style.top = this.y * 70 + 'px';
     figureDiv.dataset.x = this.x;
     figureDiv.dataset.y = this.y;
-    figureDiv.id = this.figure.id;
 
     this.figure.element = figureDiv;
     this._setFigureOnClick();

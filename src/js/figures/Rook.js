@@ -2,8 +2,7 @@
 
 export default class Rook {
 
-  constructor(color, x, y, id){
-    this.id = id;
+  constructor(color, x, y){
     this.type = 'Rook';
     this.color = color;
     this.x = x;

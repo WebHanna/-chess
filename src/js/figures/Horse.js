@@ -1,8 +1,7 @@
 
 export default class Horse {
 
-  constructor(color, x, y, id){
-    this.id = id;
+  constructor(color, x, y){
     this.type = 'Horse';
     this.color = color;
     this.x = x;

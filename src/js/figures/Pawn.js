@@ -1,8 +1,7 @@
 
 export default class Pawn {
 
-  constructor(color, x, y, id){
-    this.id = id;
+  constructor(color, x, y){
     this.type = 'Pawn';
     this.color = color;
     this.x = x;
