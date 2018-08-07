@@ -1,7 +1,8 @@
 
 export default class Pawn {
 
-  constructor(color, x, y){
+  constructor(color, x, y, id){
+    this.id = id;
     this.type = 'Pawn';
     this.color = color;
     this.x = x;
@@ -21,8 +22,8 @@ export default class Pawn {
   }
 
   searchNextAvailablePosition(cells){
-    const forwardCells = this._forwardCell(cells),
-          otherCells = this._toBeat(cells),
+    const forwardCells = this.forwardCell(cells),
+          otherCells = this.toBeat(cells),
           availableCells = [];
 
     forwardCells.forEach(item => {
@@ -42,19 +43,19 @@ export default class Pawn {
     this.nextAvailableCells = availableCells;
   }
 
-  _forwardCell(cells){
+  forwardCell(cells){
     if(this.color === 'white'){
       return this.isFirstStep ?
-        this._getFirsForwardCell(cells, this.color) :
+        this.getFirsForwardCell(cells, this.color) :
         [cells[this.y + 1][this.x]]
     } else {
       return this.isFirstStep ?
-        this._getFirsForwardCell(cells, this.color) :
+        this.getFirsForwardCell(cells, this.color) :
         [cells[this.y - 1][this.x]]
     }
   }
 
-  _getFirsForwardCell(cells, color){
+  getFirsForwardCell(cells, color){
     if(color === 'white' && cells[this.y + 1][this.x].isEmpty()) {
       return [cells[this.y + 1][this.x], cells[this.y + 2][this.x]]
     } else if (color === 'white' && !cells[this.y + 1][this.x].isEmpty()){
@@ -66,13 +67,13 @@ export default class Pawn {
     }
   }
 
-  _toBeat(cells){
+  toBeat(cells){
     const toBeatArr = [];
 
-    if(this.color === 'white'){
+    if(this.color === 'white' && cells[this.y + 1]){
       toBeatArr.push(cells[this.y + 1][this.x + 1]);
       toBeatArr.push(cells[this.y + 1][this.x - 1]);
-    } else {
+    } else if(cells[this.y - 1]) {
       toBeatArr.push(cells[this.y - 1][this.x + 1]);
       toBeatArr.push(cells[this.y - 1][this.x - 1]);
     }

@@ -76,37 +76,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Board = __webpack_require__(2);
+	var _lodash = __webpack_require__(2);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	var _Board = __webpack_require__(4);
 	
 	var _Board2 = _interopRequireDefault(_Board);
 	
-	var _Pawn = __webpack_require__(8);
+	var _Pawn = __webpack_require__(7);
 	
 	var _Pawn2 = _interopRequireDefault(_Pawn);
 	
-	var _Rook = __webpack_require__(9);
+	var _Rook = __webpack_require__(8);
 	
 	var _Rook2 = _interopRequireDefault(_Rook);
 	
-	var _Horse = __webpack_require__(10);
+	var _Horse = __webpack_require__(9);
 	
 	var _Horse2 = _interopRequireDefault(_Horse);
 	
-	var _Officer = __webpack_require__(11);
+	var _Officer = __webpack_require__(10);
 	
 	var _Officer2 = _interopRequireDefault(_Officer);
 	
-	var _Queen = __webpack_require__(12);
+	var _Queen = __webpack_require__(11);
 	
 	var _Queen2 = _interopRequireDefault(_Queen);
 	
-	var _King = __webpack_require__(5);
+	var _King = __webpack_require__(12);
 	
 	var _King2 = _interopRequireDefault(_King);
-	
-	var _FiguresManager = __webpack_require__(4);
-	
-	var _FiguresManager2 = _interopRequireDefault(_FiguresManager);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -116,26 +116,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Game() {
 	    _classCallCheck(this, Game);
 	
+	    this.previousState = null;
 	    this.board = new _Board2.default();
-	    this.defaultFiguresState = [{ x: 0, y: 0, type: 'Rook', color: 'white' }, { x: 1, y: 0, type: 'Horse', color: 'white' }, { x: 2, y: 0, type: 'Officer', color: 'white' }, { x: 4, y: 0, type: 'Queen', color: 'white' }, { x: 3, y: 0, type: 'King', color: 'white', id: 12 }, { x: 0, y: 1, type: 'Pawn', color: 'white' }, { x: 1, y: 1, type: 'Pawn', color: 'white' }, { x: 2, y: 1, type: 'Pawn', color: 'white' }, { x: 3, y: 1, type: 'Pawn', color: 'white' }, { x: 4, y: 1, type: 'Pawn', color: 'white' }, { x: 5, y: 1, type: 'Pawn', color: 'white' }, { x: 6, y: 1, type: 'Pawn', color: 'white' }, { x: 7, y: 1, type: 'Pawn', color: 'white' }, { x: 0, y: 6, type: 'Pawn', color: 'black' }, { x: 1, y: 6, type: 'Pawn', color: 'black' }, { x: 2, y: 6, type: 'Pawn', color: 'black' }, { x: 3, y: 6, type: 'Pawn', color: 'black' }, { x: 4, y: 6, type: 'Pawn', color: 'black' }, { x: 5, y: 6, type: 'Pawn', color: 'black' }, { x: 6, y: 6, type: 'Pawn', color: 'black' }, { x: 7, y: 6, type: 'Pawn', color: 'black' }, { x: 1, y: 7, type: 'Horse', color: 'black' }, { x: 0, y: 7, type: 'Rook', color: 'black' }, { x: 4, y: 7, type: 'Queen', color: 'black' }];
+	    this.check = null;
+	    this.mate = null;
+	    this.turn = 'white';
+	    this.defaultFiguresState = [{ x: 0, y: 0, type: 'Rook', color: 'white', id: 0 }, { x: 1, y: 0, type: 'Horse', color: 'white', id: 13 }, { x: 2, y: 0, type: 'Officer', color: 'white', id: 10 }, { x: 4, y: 0, type: 'Queen', color: 'white', id: 11 }, { x: 3, y: 0, type: 'King', color: 'white', id: 12 }, { x: 5, y: 0, type: 'Officer', color: 'white', id: 13 }, { x: 6, y: 0, type: 'Horse', color: 'white', id: 14 }, { x: 7, y: 0, type: 'Rook', color: 'white', id: 15 }, { x: 0, y: 1, type: 'Pawn', color: 'white', id: 1 }, { x: 1, y: 1, type: 'Pawn', color: 'white', id: 2 }, { x: 2, y: 1, type: 'Pawn', color: 'white', id: 3 }, { x: 3, y: 1, type: 'Pawn', color: 'white', id: 5 }, { x: 4, y: 1, type: 'Pawn', color: 'white', id: 6 }, { x: 5, y: 1, type: 'Pawn', color: 'white', id: 7 }, { x: 6, y: 1, type: 'Pawn', color: 'white', id: 8 }, { x: 7, y: 1, type: 'Pawn', color: 'white', id: 9 }, { x: 0, y: 6, type: 'Pawn', color: 'black', id: 4 }, { x: 1, y: 6, type: 'Pawn', color: 'black', id: 16 }, { x: 2, y: 6, type: 'Pawn', color: 'black', id: 17 }, { x: 3, y: 6, type: 'Pawn', color: 'black', id: 18 }, { x: 4, y: 6, type: 'Pawn', color: 'black', id: 19 }, { x: 5, y: 6, type: 'Pawn', color: 'black', id: 20 }, { x: 6, y: 6, type: 'Pawn', color: 'black', id: 21 }, { x: 7, y: 6, type: 'Pawn', color: 'black', id: 22 }, { x: 2, y: 7, type: 'Officer', color: 'black', id: 26 }, { x: 1, y: 7, type: 'Horse', color: 'black', id: 23 }, { x: 0, y: 7, type: 'Rook', color: 'black', id: 24 }, { x: 4, y: 7, type: 'Queen', color: 'black', id: 25 }, { x: 3, y: 7, type: 'King', color: 'black', id: 27 }, { x: 5, y: 7, type: 'Officer', color: 'black', id: 28 }, { x: 6, y: 7, type: 'Horse', color: 'black', id: 29 }, { x: 7, y: 7, type: 'Rook', color: 'black', id: 30 }];
+	    this.cancelButton = document.getElementById('cancelButton');
 	  }
 	
 	  _createClass(Game, [{
 	    key: 'start',
 	    value: function start() {
-	      this.board.renderBoard();
-	      this._setDefaultState();
-	    }
-	  }, {
-	    key: '_setDefaultState',
-	    value: function _setDefaultState() {
 	      var _this = this;
 	
+	      this.board.renderBoard();
+	      this.setDefaultState();
+	      this.savePreviousState();
+	
+	      this.cancelButton.addEventListener('click', function () {
+	        _this.cancelStep();
+	      });
+	    }
+	  }, {
+	    key: 'setDefaultState',
+	    value: function setDefaultState() {
+	      var _this2 = this;
+	
 	      this.defaultFiguresState.forEach(function (initialFigure) {
-	        _this.board.cells.forEach(function (row) {
+	        _this2.board.cells.forEach(function (row) {
 	          row.forEach(function (cell) {
 	            if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
-	              cell.setFigure(_this.getInitialFigure(initialFigure));
+	              cell.setFigure(_this2.getInitialFigure(initialFigure));
+	            }
+	          });
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'setPreviousState',
+	    value: function setPreviousState(state) {
+	      var _this3 = this;
+	
+	      state.forEach(function (initialFigure) {
+	        _this3.board.cells.forEach(function (row) {
+	          row.forEach(function (cell) {
+	            if (cell.x === initialFigure.x && cell.y === initialFigure.y) {
+	              cell.setFigure(_this3.getInitialFigure(initialFigure));
 	            }
 	          });
 	        });
@@ -145,18 +172,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'getInitialFigure',
 	    value: function getInitialFigure(initialFigure) {
 	      if (initialFigure.type === 'Pawn') {
-	        return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y);
+	        return new _Pawn2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      } else if (initialFigure.type === 'Rook') {
-	        return new _Rook2.default(initialFigure.color, initialFigure.x, initialFigure.y);
+	        return new _Rook2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      } else if (initialFigure.type === 'Officer') {
-	        return new _Officer2.default(initialFigure.color, initialFigure.x, initialFigure.y);
+	        return new _Officer2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      } else if (initialFigure.type === 'Queen') {
-	        return new _Queen2.default(initialFigure.color, initialFigure.x, initialFigure.y);
+	        return new _Queen2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      } else if (initialFigure.type === 'King') {
 	        return new _King2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      } else if (initialFigure.type === 'Horse') {
-	        return new _Horse2.default(initialFigure.color, initialFigure.x, initialFigure.y);
+	        return new _Horse2.default(initialFigure.color, initialFigure.x, initialFigure.y, initialFigure.id);
 	      }
+	    }
+	  }, {
+	    key: 'cancelStep',
+	    value: function cancelStep() {
+	
+	      if (!this.previousState) return;
+	
+	      this.board = this.previousState.board;
+	      this.turn = this.previousState.turn;
+	
+	      var newFiguresArr = [];
+	
+	      this.board.cells.forEach(function (row) {
+	        row.forEach(function (cell) {
+	          if (cell.figure) {
+	            cell.figure.element.remove();
+	
+	            newFiguresArr.push({
+	              x: cell.figure.x, y: cell.figure.y,
+	              type: cell.figure.type,
+	              color: cell.figure.color,
+	              id: cell.figure.id
+	            });
+	          }
+	        });
+	      });
+	
+	      this.setPreviousState(newFiguresArr);
+	    }
+	  }, {
+	    key: 'savePreviousState',
+	    value: function savePreviousState() {
+	      this.previousState = {
+	        board: _lodash2.default.cloneDeep(this.board),
+	        turn: this.turn
+	      };
 	    }
 	  }, {
 	    key: 'turnEnd',
@@ -165,6 +228,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	        row.forEach(function (cell) {
 	          cell.removeAvailable();
 	        });
+	      });
+	
+	      this.checkGameStatus();
+	
+	      this.board.checkPawnsToChange();
+	
+	      if (this.turn === 'white') {
+	        this.turn = 'black';
+	      } else {
+	        this.turn = 'white';
+	      }
+	    }
+	  }, {
+	    key: 'checkGameStatus',
+	    value: function checkGameStatus() {
+	      var _this4 = this;
+	
+	      var kingCell = void 0,
+	          kingAvailablePositions = void 0,
+	          opponentPositions = void 0;
+	
+	      this.board.cells.forEach(function (row) {
+	        row.forEach(function (cell) {
+	          if (cell.figure && cell.figure.type === 'King' && cell.figure.color !== _this4.turn) {
+	            kingCell = cell;
+	          }
+	        });
+	      });
+	
+	      if (kingCell) {
+	        kingCell.figure.searchNextAvailablePosition(this.board.cells);
+	
+	        kingAvailablePositions = kingCell.figure.nextAvailableCells;
+	        opponentPositions = kingCell.figure.findOpponentAvailablePositions(this.board.cells);
+	
+	        if (this.isKingAttacked(kingCell, opponentPositions) && kingAvailablePositions.length === 0) {
+	          this.mate = this.turn;
+	        } else if (this.isKingAttacked(kingCell, opponentPositions)) {
+	          this.check = this.turn;
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'isKingAttacked',
+	    value: function isKingAttacked(kingCell, opponentPositions) {
+	      return !!opponentPositions.find(function (cell) {
+	        return kingCell.x === cell.x && kingCell.y === cell.y;
 	      });
 	    }
 	  }]);
@@ -178,657 +288,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _BoardCell = __webpack_require__(3);
-	
-	var _BoardCell2 = _interopRequireDefault(_BoardCell);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Board = function () {
-		function Board() {
-			_classCallCheck(this, Board);
-	
-			this.cells = [];
-			this.selectedFigure = null;
-			this.element = null;
-		}
-	
-		_createClass(Board, [{
-			key: 'renderBoard',
-			value: function renderBoard() {
-	
-				var board = document.getElementById('board');
-	
-				this._getCells();
-	
-				this.cells.forEach(function (row) {
-					row.forEach(function (cell) {
-						board.appendChild(cell.element);
-					});
-				});
-	
-				this.element = board;
-			}
-		}, {
-			key: '_getCells',
-			value: function _getCells() {
-				var white = 'white',
-				    black = 'black';
-	
-				var arr = [];
-	
-				for (var i = 0; i < 8; i++) {
-					if (i % 2 === 0) {
-						arr.push(this._getRow(i, white, black));
-					} else {
-						arr.push(this._getRow(i, black, white));
-					}
-				}
-	
-				this.cells = arr;
-			}
-		}, {
-			key: '_getRow',
-			value: function _getRow(y, firstColor, secondColor) {
-				var arr = [];
-	
-				for (var i = 0; i < 8; i++) {
-	
-					if (i % 2 === 0) {
-						arr.push(new _BoardCell2.default(firstColor, i, y));
-					} else {
-						arr.push(new _BoardCell2.default(secondColor, i, y));
-					}
-				}
-				return arr;
-			}
-		}]);
-	
-		return Board;
-	}();
-	
-	exports.default = Board;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _Game = __webpack_require__(1);
-	
-	var _Game2 = _interopRequireDefault(_Game);
-	
-	var _FiguresManager = __webpack_require__(4);
-	
-	var _FiguresManager2 = _interopRequireDefault(_FiguresManager);
-	
-	var _lodash = __webpack_require__(6);
-	
-	var _lodash2 = _interopRequireDefault(_lodash);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var BoardCell = function () {
-	  function BoardCell(color, x, y) {
-	    _classCallCheck(this, BoardCell);
-	
-	    this.color = color;
-	    this.x = x;
-	    this.y = y;
-	    this.figure = null;
-	    this.element = this._createCell(color);
-	    this.available = null;
-	  }
-	
-	  _createClass(BoardCell, [{
-	    key: '_createCell',
-	    value: function _createCell(color) {
-	      var cell = document.createElement('div');
-	      cell.className = 'block ' + color;
-	      cell.dataset.x = this.x;
-	      cell.dataset.y = this.y;
-	      cell.style.left = this.x * 70 + 'px';
-	      cell.style.top = this.y * 70 + 'px';
-	      this._setCellOnClick(cell);
-	
-	      return cell;
-	    }
-	  }, {
-	    key: 'setFigure',
-	    value: function setFigure(figure) {
-	      this.figure = figure;
-	      this._renderInitialFigure();
-	    }
-	  }, {
-	    key: '_setCellOnClick',
-	    value: function _setCellOnClick(cell) {
-	      cell.addEventListener('click', function (e) {
-	
-	        var targetCell = e.target;
-	        var currentFigure = _lodash2.default.cloneDeep(_Game2.default.selectedFigure);
-	        var currentCell = _FiguresManager2.default.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
-	        if (_Game2.default.selectedFigure && currentCell.available) {
-	          _FiguresManager2.default._removeFigureFromCell(currentFigure.y, currentFigure.x);
-	
-	          _FiguresManager2.default.moveFigure({ x: targetCell.dataset.x, y: targetCell.dataset.y }, currentFigure);
-	          currentCell.figure = currentFigure;
-	          _Game2.default.selectedFigure = null;
-	        }
-	
-	        _Game2.default.turnEnd();
-	      });
-	    }
-	  }, {
-	    key: '_setFigureOnClick',
-	    value: function _setFigureOnClick() {
-	      var _this = this;
-	
-	      this.figure.element.addEventListener('click', function (e) {
-	        _FiguresManager2.default.checkMate();
-	        var targetFigure = e.target;
-	        if (!_this.isAvailable(targetFigure.dataset)) {
-	          _Game2.default.turnEnd();
-	
-	          var currentFigureCell = _FiguresManager2.default.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-	
-	          _this.setAvailableNextCells(currentFigureCell);
-	
-	          _Game2.default.selectedFigure = _lodash2.default.cloneDeep(currentFigureCell.figure);
-	        } else {
-	          var _currentFigureCell = _FiguresManager2.default.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-	
-	          _FiguresManager2.default.beatFigure(_currentFigureCell);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'setAvailableNextCells',
-	    value: function setAvailableNextCells(currentFigureCell) {
-	      // console.log("currentFigureCell", currentFigureCell);
-	      currentFigureCell.figure.searchNextAvailablePosition(_Game2.default.board.cells);
-	      currentFigureCell.figure.nextAvailableCells.forEach(function (cell) {
-	        cell.setAvailable();
-	      });
-	    }
-	  }, {
-	    key: 'setAvailable',
-	    value: function setAvailable() {
-	      this.element.classList.add('available');
-	      this.available = true;
-	    }
-	  }, {
-	    key: 'removeAvailable',
-	    value: function removeAvailable() {
-	      this.element.classList.remove('available');
-	      this.available = false;
-	    }
-	  }, {
-	    key: 'isEmpty',
-	    value: function isEmpty() {
-	      return !this.figure;
-	    }
-	  }, {
-	    key: 'isAvailable',
-	    value: function isAvailable(figure) {
-	      return _Game2.default.board.cells[figure.y][figure.x].available;
-	    }
-	  }, {
-	    key: '_renderInitialFigure',
-	    value: function _renderInitialFigure() {
-	      var figureDiv = document.createElement('div');
-	      figureDiv.className = 'figure';
-	      figureDiv.style.backgroundPosition = this.figure.position;
-	      figureDiv.style.left = this.x * 70 + 'px';
-	      figureDiv.style.top = this.y * 70 + 'px';
-	      figureDiv.dataset.x = this.x;
-	      figureDiv.dataset.y = this.y;
-	
-	      if (this.figure.id) {
-	        figureDiv.id = this.figure.id;
-	      }
-	
-	      this.figure.element = figureDiv;
-	      this._setFigureOnClick();
-	
-	      _Game2.default.board.element.appendChild(this.figure.element);
-	    }
-	  }]);
-	
-	  return BoardCell;
-	}();
-	
-	exports.default = BoardCell;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _Game = __webpack_require__(1);
-	
-	var _Game2 = _interopRequireDefault(_Game);
-	
-	var _King = __webpack_require__(5);
-	
-	var _King2 = _interopRequireDefault(_King);
-	
-	var _lodash = __webpack_require__(6);
-	
-	var _lodash2 = _interopRequireDefault(_lodash);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var FiguresManager = function () {
-	  function FiguresManager() {
-	    _classCallCheck(this, FiguresManager);
-	
-	    this.king = null;
-	    this.beatedBlackFigures = [];
-	    this.beatedWhiteFigures = [];
-	    this.beatBlackBoard = document.getElementById('beatBlack');
-	    this.beatWhiteBoard = document.getElementById('beatWhite');
-	  }
-	
-	  _createClass(FiguresManager, [{
-	    key: 'checkMate',
-	    value: function checkMate() {
-	      var kingf = document.getElementById("12");
-	      //	console.log("king", king);
-	      // const currentFigureCell = figuresManager.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-	      // 	console.log("currentFigureCell", currentFigureCell);
-	      // 		const kingIsAvailable = kingf.classList.contains("available");
-	
-	      // 	console.log("king", king);
-	
-	      //	if(kingIsAvailable) {
-	      console.log("king", _King2.default);
-	      //	}
-	
-	      // console.log("cells47", this.searchNextAvailablePosition(cells));
-	
-	      // console.log("kingIsAvailable", kingIsAvailable);
-	    }
-	  }, {
-	    key: '_removeFigureFromCell',
-	    value: function _removeFigureFromCell(y, x) {
-	      _Game2.default.board.cells[y][x].figure = null;
-	    }
-	  }, {
-	    key: 'removeFigureFromBoard',
-	    value: function removeFigureFromBoard(y, x, currentFigureCell) {
-	      currentFigureCell.figure.element.remove();
-	
-	      if (currentFigureCell.figure.color === 'white') {
-	        this._renderFigureOnBeatBoard(currentFigureCell.figure);
-	        this.beatedWhiteFigures.push(currentFigureCell.figure);
-	      } else {
-	        this._renderFigureOnBeatBoard(currentFigureCell.figure);
-	        this.beatedBlackFigures.push(currentFigureCell.figure);
-	      }
-	      this._removeFigureFromCell(y, x);
-	    }
-	  }, {
-	    key: 'beatFigure',
-	    value: function beatFigure(currentFigureCell) {
-	      var currentFigure = _lodash2.default.cloneDeep(_Game2.default.selectedFigure);
-	
-	      this.removeFigureFromBoard(currentFigure.y, currentFigure.x, currentFigureCell);
-	
-	      this.moveFigure(currentFigureCell.figure, currentFigure);
-	      currentFigureCell.figure = _lodash2.default.cloneDeep(currentFigure);
-	
-	      _Game2.default.selectedFigure = null;
-	      _Game2.default.turnEnd();
-	    }
-	  }, {
-	    key: 'moveFigure',
-	    value: function moveFigure(cell, figure) {
-	      figure.x = parseInt(cell.x);
-	      figure.y = parseInt(cell.y);
-	      figure.element.style.left = cell.x * 70 + 'px';
-	      figure.element.style.top = cell.y * 70 + 'px';
-	
-	      figure.element.dataset.x = cell.x;
-	      figure.element.dataset.y = cell.y;
-	
-	      if (figure.isFirstStep) figure.isFirstStep = false;
-	    }
-	  }, {
-	    key: 'findFigureByCoords',
-	    value: function findFigureByCoords(y, x) {
-	
-	      var currentCell = void 0;
-	
-	      _Game2.default.board.cells.forEach(function (rows) {
-	        rows.forEach(function (cell) {
-	          if (cell.figure) {
-	            if (cell.figure.y == y && cell.figure.x == x) {
-	              currentCell = cell;
-	            }
-	          }
-	        });
-	      });
-	
-	      return currentCell;
-	    }
-	  }, {
-	    key: 'findCellByCoords',
-	    value: function findCellByCoords(y, x) {
-	
-	      var currentCell = void 0;
-	
-	      _Game2.default.board.cells.forEach(function (rows) {
-	        rows.forEach(function (cell) {
-	          if (cell.y == y && cell.x == x) {
-	            currentCell = cell;
-	          }
-	        });
-	      });
-	
-	      return currentCell;
-	    }
-	  }, {
-	    key: '_renderFigureOnBeatBoard',
-	    value: function _renderFigureOnBeatBoard(figure) {
-	      var figureDiv = document.createElement('div'),
-	          isWhite = figure.color === 'white',
-	          boardLength = isWhite ? this.beatedWhiteFigures.length : this.beatedBlackFigures.length;
-	
-	      figureDiv.className = 'figure';
-	      figureDiv.style.backgroundPosition = figure.position;
-	      figureDiv.style.left = boardLength > 7 ? (boardLength - 8) * 70 + 'px' : boardLength * 70 + 'px';
-	      figureDiv.style.top = boardLength > 7 ? 70 + 'px' : 0 + 'px';
-	
-	      if (isWhite) {
-	        this.beatWhiteBoard.appendChild(figureDiv);
-	      } else {
-	        this.beatBlackBoard.appendChild(figureDiv);
-	      }
-	    }
-	  }]);
-	
-	  return FiguresManager;
-	}();
-	
-	var figuresManager = new FiguresManager();
-	
-	exports.default = figuresManager;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var King = function () {
-	  function King(color, x, y, id) {
-	    _classCallCheck(this, King);
-	
-	    this.id = id;
-	    this.type = 'King';
-	    this.color = color;
-	    this.x = x;
-	    this.y = y;
-	    this.nextAvailableCells = null;
-	    this.element = null;
-	    this.position = this._getPosition();
-	  }
-	
-	  _createClass(King, [{
-	    key: '_getPosition',
-	    value: function _getPosition() {
-	      if (this.color === 'white') {
-	        return '-41px -116px';
-	      } else {
-	        return '-41px -16px';
-	      }
-	    }
-	  }, {
-	    key: 'searchNextAvailablePosition',
-	    value: function searchNextAvailablePosition(cells) {
-	      var rookCells = this._findAllRook(cells),
-	          officerCells = this._findAll(cells);
-	
-	      this.nextAvailableCells = rookCells.concat(officerCells);
-	    }
-	  }, {
-	    key: '_findAll',
-	    value: function _findAll(cells) {
-	      var available = [];
-	
-	      for (var r = 0; r < cells.length - this.y; r++) {
-	        //to right bottom
-	
-	        var cell = cells[this.y + r][this.x + r];
-	
-	        if (cell && cell.x !== this.x && cell.y !== this.y) {
-	          if (cell && cell.isEmpty()) {
-	            available.push(cell);
-	            break;
-	          }
-	
-	          if (cell && !cell.isEmpty()) {
-	            if (cell.figure.color !== this.color) {
-	              available.push(cell);
-	            }
-	            break;
-	          }
-	        }
-	      }
-	
-	      for (var _r = 0; _r < cells.length - this.y; _r++) {
-	        //to left bottom
-	
-	        var _cell = cells[this.y + _r][this.x - _r];
-	
-	        if (_cell && _cell.x !== this.x && _cell.y !== this.y) {
-	          if (_cell && _cell.isEmpty()) {
-	            available.push(_cell);
-	            break;
-	          }
-	
-	          if (_cell && !_cell.isEmpty()) {
-	            if (_cell.figure.color !== this.color) {
-	              available.push(_cell);
-	            }
-	            break;
-	          }
-	        }
-	      }
-	
-	      var xRightToTop = 1;
-	      for (var _r2 = this.y - 1; _r2 >= 0; _r2--) {
-	        //to right top
-	
-	        var _cell2 = cells[_r2][this.x + xRightToTop];
-	        xRightToTop++;
-	        if (_cell2 && _cell2.x !== this.x && _cell2.y !== this.y) {
-	          if (_cell2 && _cell2.isEmpty()) {
-	            available.push(_cell2);
-	            break;
-	          }
-	
-	          if (_cell2 && !_cell2.isEmpty()) {
-	            if (_cell2.figure.color !== this.color) {
-	              available.push(_cell2);
-	            }
-	            break;
-	          }
-	        }
-	      }
-	
-	      var xLeftToTop = 1;
-	      for (var _r3 = this.y - 1; _r3 >= 0; _r3--) {
-	        //to left top
-	
-	        var _cell3 = cells[_r3][this.x - xLeftToTop];
-	        xLeftToTop++;
-	
-	        if (_cell3 && _cell3.x !== this.x && _cell3.y !== this.y) {
-	          if (_cell3 && _cell3.isEmpty()) {
-	            available.push(_cell3);
-	            break;
-	          }
-	
-	          if (_cell3 && !_cell3.isEmpty()) {
-	            if (_cell3.figure.color !== this.color) {
-	              available.push(_cell3);
-	            }
-	            break;
-	          }
-	        }
-	      }
-	
-	      return available;
-	    }
-	  }, {
-	    key: '_findAllRook',
-	    value: function _findAllRook(cells) {
-	      var _this = this;
-	
-	      var xArr = [],
-	          yArr = [];
-	
-	      cells[this.y].forEach(function (item) {
-	        if (item.x !== _this.x) {
-	          xArr.push(item);
-	        }
-	      });
-	
-	      cells.forEach(function (row) {
-	        row.forEach(function (item) {
-	          if (item.y !== _this.y && _this.x === item.x) {
-	            yArr.push(item);
-	          }
-	        });
-	      });
-	
-	      return this._getAvailableOnly(xArr, yArr);
-	    }
-	  }, {
-	    key: '_getAvailableOnly',
-	    value: function _getAvailableOnly(xArr, yArr) {
-	      var available = [];
-	
-	      for (var i = this.x; i < xArr.length; i++) {
-	        // to right bottom
-	        if (xArr[i]) {
-	          if (xArr[i].x > this.x && xArr[i].isEmpty()) {
-	            available.push(xArr[i]);
-	            break;
-	          }
-	          if (xArr[i].x > this.x && !xArr[i].isEmpty()) {
-	            if (xArr[i].figure.color !== this.color) {
-	              available.push(xArr[i]);
-	            }
-	            break;
-	          }
-	        } else {
-	          break;
-	        }
-	      }
-	
-	      for (var _i = this.x - 1; _i >= 0; _i--) {
-	        // to left
-	        if (xArr[_i]) {
-	          if (xArr[_i].x < this.x && xArr[_i].isEmpty()) {
-	            available.push(xArr[_i]);
-	            break;
-	          }
-	          if (xArr[_i].x < this.x && !xArr[_i].isEmpty()) {
-	            if (xArr[_i].figure.color !== this.color) {
-	              available.push(xArr[_i]);
-	            }
-	            break;
-	          }
-	        } else {
-	          break;
-	        }
-	      }
-	
-	      for (var _i2 = this.y; _i2 >= 0; _i2--) {
-	        // to top
-	        if (yArr[_i2]) {
-	          if (yArr[_i2].y < this.y && yArr[_i2].isEmpty()) {
-	            available.push(yArr[_i2]);
-	            break;
-	          }
-	          if (yArr[_i2].y < this.y && !yArr[_i2].isEmpty()) {
-	            if (yArr[_i2].figure.color !== this.color) {
-	              available.push(yArr[_i2]);
-	            }
-	            break;
-	          }
-	        }
-	      }
-	
-	      for (var _i3 = this.y; _i3 < yArr.length; _i3++) {
-	        // to bottom
-	        if (yArr[_i3]) {
-	          if (yArr[_i3].y > this.y && yArr[_i3].isEmpty()) {
-	            available.push(yArr[_i3]);
-	            break;
-	          }
-	
-	          if (yArr[_i3].y > this.y && !yArr[_i3].isEmpty()) {
-	
-	            if (yArr[_i3].figure.color !== this.color) {
-	              available.push(yArr[_i3]);
-	            }
-	            break;
-	          }
-	        }
-	      }
-	
-	      return available;
-	    }
-	  }]);
-	
-	  return King;
-	}();
-	
-	exports.default = King;
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -17937,10 +17396,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(7)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3)(module)))
 
 /***/ },
-/* 7 */
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -17956,7 +17415,500 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _BoardCell = __webpack_require__(5);
+	
+	var _BoardCell2 = _interopRequireDefault(_BoardCell);
+	
+	var _FiguresManager = __webpack_require__(6);
+	
+	var _FiguresManager2 = _interopRequireDefault(_FiguresManager);
+	
+	var _Game = __webpack_require__(1);
+	
+	var _Game2 = _interopRequireDefault(_Game);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Board = function () {
+	  function Board() {
+	    _classCallCheck(this, Board);
+	
+	    this.cells = [];
+	    this.selectedFigure = null;
+	    this.element = null;
+	    this.isBoardBlocked = false;
+	    this.cellToSwitch = false;
+	  }
+	
+	  _createClass(Board, [{
+	    key: 'freezeClicks',
+	    value: function freezeClicks() {
+	      this.isBoardBlocked = true;
+	    }
+	  }, {
+	    key: 'unfreezeClicks',
+	    value: function unfreezeClicks() {
+	      this.isBoardBlocked = false;
+	      this.cellToSwitch = false;
+	    }
+	  }, {
+	    key: 'checkPawnsToChange',
+	    value: function checkPawnsToChange() {
+	
+	      var pawnToChange = void 0;
+	
+	      this.cells.forEach(function (row) {
+	        row.forEach(function (cell) {
+	          if (cell.figure && cell.figure.type === 'Pawn') {
+	            if (cell.figure.color === 'white' && cell.y === 7) {
+	              pawnToChange = cell;
+	            } else if (cell.figure.color === 'black' && cell.y === 0) {
+	              pawnToChange = cell;
+	            }
+	          }
+	        });
+	      });
+	
+	      if (pawnToChange) {
+	        this.freezeClicks();
+	
+	        this.cellToSwitch = pawnToChange;
+	
+	        if (pawnToChange.figure.color === 'white' && _FiguresManager2.default.beatWhiteBoard.length) {
+	          _FiguresManager2.default.chooseWhite();
+	        } else if (_FiguresManager2.default.beatBlackBoard.length) {
+	          _FiguresManager2.default.chooseBlack();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'renderBoard',
+	    value: function renderBoard() {
+	
+	      var board = document.getElementById('board');
+	
+	      this.getCells();
+	
+	      this.cells.forEach(function (row) {
+	        row.forEach(function (cell) {
+	          board.appendChild(cell.element);
+	        });
+	      });
+	
+	      this.element = board;
+	    }
+	  }, {
+	    key: 'renderOnBoard',
+	    value: function renderOnBoard(figure, x, y) {
+	      this.cells[y][x].setFigure(_Game2.default.getInitialFigure({ x: x, y: y, type: figure.type, color: figure.color, id: figure.id }));
+	    }
+	  }, {
+	    key: 'getCells',
+	    value: function getCells() {
+	      var white = 'white',
+	          black = 'black';
+	
+	      var arr = [];
+	
+	      for (var i = 0; i < 8; i++) {
+	        if (i % 2 === 0) {
+	          arr.push(this.getRow(i, white, black));
+	        } else {
+	          arr.push(this.getRow(i, black, white));
+	        }
+	      }
+	
+	      this.cells = arr;
+	    }
+	  }, {
+	    key: 'getRow',
+	    value: function getRow(y, firstColor, secondColor) {
+	      var arr = [];
+	
+	      for (var i = 0; i < 8; i++) {
+	
+	        if (i % 2 === 0) {
+	          arr.push(new _BoardCell2.default(firstColor, i, y));
+	        } else {
+	          arr.push(new _BoardCell2.default(secondColor, i, y));
+	        }
+	      }
+	      return arr;
+	    }
+	  }]);
+	
+	  return Board;
+	}();
+	
+	exports.default = Board;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _Game = __webpack_require__(1);
+	
+	var _Game2 = _interopRequireDefault(_Game);
+	
+	var _FiguresManager = __webpack_require__(6);
+	
+	var _FiguresManager2 = _interopRequireDefault(_FiguresManager);
+	
+	var _lodash = __webpack_require__(2);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var BoardCell = function () {
+	  function BoardCell(color, x, y) {
+	    _classCallCheck(this, BoardCell);
+	
+	    this.color = color;
+	    this.x = x;
+	    this.y = y;
+	    this.figure = null;
+	    this.element = this.createCell(color);
+	    this.available = null;
+	  }
+	
+	  _createClass(BoardCell, [{
+	    key: 'createCell',
+	    value: function createCell(color) {
+	      var cell = document.createElement('div');
+	      cell.className = 'block ' + color;
+	      cell.dataset.x = this.x;
+	      cell.dataset.y = this.y;
+	      cell.style.left = this.x * 70 + 'px';
+	      cell.style.top = this.y * 70 + 'px';
+	      this.setCellOnClick(cell);
+	
+	      return cell;
+	    }
+	  }, {
+	    key: 'setFigure',
+	    value: function setFigure(figure) {
+	      this.figure = figure;
+	      this.renderInitialFigure();
+	    }
+	  }, {
+	    key: 'setCellOnClick',
+	    value: function setCellOnClick(cell) {
+	      cell.addEventListener('click', function (e) {
+	
+	        if (_Game2.default.board.isBoardBlocked) return;
+	
+	        var targetCell = e.target;
+	        var currentFigure = _lodash2.default.cloneDeep(_Game2.default.selectedFigure);
+	        var currentCell = _FiguresManager2.default.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
+	
+	        if (_Game2.default.selectedFigure && currentCell.available) {
+	          _FiguresManager2.default.removeFigureFromCell(currentFigure.y, currentFigure.x);
+	
+	          _FiguresManager2.default.moveFigure({ x: targetCell.dataset.x, y: targetCell.dataset.y }, currentFigure);
+	          currentCell.figure = currentFigure;
+	          _Game2.default.selectedFigure = null;
+	
+	          _Game2.default.turnEnd();
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'setFigureOnClick',
+	    value: function setFigureOnClick() {
+	      var _this = this;
+	
+	      this.figure.element.addEventListener('click', function (e) {
+	
+	        if (_Game2.default.board.isBoardBlocked) return;
+	
+	        var targetFigure = e.target;
+	
+	        if (!_this.isAvailable(targetFigure.dataset)) {
+	          _Game2.default.board.cells.forEach(function (row) {
+	            row.forEach(function (cell) {
+	              cell.removeAvailable();
+	            });
+	          });
+	
+	          var currentFigureCell = _FiguresManager2.default.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+	
+	          _Game2.default.selectedFigure = _lodash2.default.cloneDeep(currentFigureCell.figure);
+	
+	          if (_Game2.default.selectedFigure.color === _Game2.default.turn) {
+	            _this.setAvailableNextCells(currentFigureCell);
+	            _Game2.default.savePreviousState();
+	          }
+	        } else {
+	          var _currentFigureCell = _FiguresManager2.default.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
+	
+	          _FiguresManager2.default.beatFigure(_currentFigureCell);
+	          _Game2.default.turnEnd();
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'setAvailableNextCells',
+	    value: function setAvailableNextCells(currentFigureCell) {
+	      currentFigureCell.figure.searchNextAvailablePosition(_Game2.default.board.cells);
+	      currentFigureCell.figure.nextAvailableCells.forEach(function (cell) {
+	        cell.setAvailable();
+	      });
+	    }
+	  }, {
+	    key: 'setAvailable',
+	    value: function setAvailable() {
+	      this.element.classList.add('available');
+	      this.available = true;
+	    }
+	  }, {
+	    key: 'removeAvailable',
+	    value: function removeAvailable() {
+	      this.element.classList.remove('available');
+	      this.available = false;
+	    }
+	  }, {
+	    key: 'isEmpty',
+	    value: function isEmpty() {
+	      return !this.figure;
+	    }
+	  }, {
+	    key: 'isAvailable',
+	    value: function isAvailable(figure) {
+	      return _Game2.default.board.cells[figure.y][figure.x].available;
+	    }
+	  }, {
+	    key: 'renderInitialFigure',
+	    value: function renderInitialFigure() {
+	      var figureDiv = document.createElement('div');
+	      figureDiv.className = 'figure';
+	      figureDiv.style.backgroundPosition = this.figure.position;
+	      figureDiv.style.left = this.x * 70 + 'px';
+	      figureDiv.style.top = this.y * 70 + 'px';
+	      figureDiv.dataset.x = this.x;
+	      figureDiv.dataset.y = this.y;
+	      figureDiv.id = this.figure.id;
+	
+	      this.figure.element = figureDiv;
+	      this.setFigureOnClick();
+	
+	      _Game2.default.board.element.appendChild(this.figure.element);
+	    }
+	  }]);
+	
+	  return BoardCell;
+	}();
+	
+	exports.default = BoardCell;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _Game = __webpack_require__(1);
+	
+	var _Game2 = _interopRequireDefault(_Game);
+	
+	var _lodash = __webpack_require__(2);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var FiguresManager = function () {
+	  function FiguresManager() {
+	    _classCallCheck(this, FiguresManager);
+	
+	    this.beatedBlackFigures = [];
+	    this.beatedWhiteFigures = [];
+	    this.beatBlackBoard = document.getElementById('beatBlack');
+	    this.blackAvailable = false;
+	    this.beatWhiteBoard = document.getElementById('beatWhite');
+	    this.whiteAvailable = false;
+	  }
+	
+	  _createClass(FiguresManager, [{
+	    key: 'chooseBlack',
+	    value: function chooseBlack() {
+	      this.beatBlackBoard.classList.add('available');
+	      this.blackAvailable = true;
+	    }
+	  }, {
+	    key: 'chooseWhite',
+	    value: function chooseWhite() {
+	      this.beatWhiteBoard.classList.add('available');
+	      this.whiteAvailable = true;
+	    }
+	  }, {
+	    key: 'removeFigureFromCell',
+	    value: function removeFigureFromCell(y, x) {
+	      _Game2.default.board.cells[y][x].figure = null;
+	    }
+	  }, {
+	    key: 'removeFigureFromBoard',
+	    value: function removeFigureFromBoard(y, x, currentFigureCell) {
+	      currentFigureCell.figure.element.remove();
+	
+	      if (currentFigureCell.figure.color === 'white') {
+	        this.renderFigureOnBeatBoard(currentFigureCell.figure);
+	        this.beatedWhiteFigures.push(currentFigureCell.figure);
+	      } else {
+	        this.renderFigureOnBeatBoard(currentFigureCell.figure);
+	        this.beatedBlackFigures.push(currentFigureCell.figure);
+	      }
+	      this.removeFigureFromCell(y, x);
+	    }
+	  }, {
+	    key: 'beatFigure',
+	    value: function beatFigure(currentFigureCell) {
+	      var currentFigure = _lodash2.default.cloneDeep(_Game2.default.selectedFigure);
+	
+	      this.removeFigureFromBoard(currentFigure.y, currentFigure.x, currentFigureCell);
+	
+	      this.moveFigure(currentFigureCell.figure, currentFigure);
+	      currentFigureCell.figure = _lodash2.default.cloneDeep(currentFigure);
+	
+	      _Game2.default.selectedFigure = null;
+	    }
+	  }, {
+	    key: 'moveFigure',
+	    value: function moveFigure(cell, figure) {
+	      figure.x = parseInt(cell.x);
+	      figure.y = parseInt(cell.y);
+	      figure.element.style.left = cell.x * 70 + 'px';
+	      figure.element.style.top = cell.y * 70 + 'px';
+	
+	      figure.element.dataset.x = cell.x;
+	      figure.element.dataset.y = cell.y;
+	
+	      if (figure.isFirstStep) figure.isFirstStep = false;
+	    }
+	  }, {
+	    key: 'findFigureByCoords',
+	    value: function findFigureByCoords(y, x) {
+	
+	      var currentCell = void 0;
+	
+	      _Game2.default.board.cells.forEach(function (rows) {
+	        rows.forEach(function (cell) {
+	          if (cell.figure) {
+	            if (cell.figure.y == y && cell.figure.x == x) {
+	              currentCell = cell;
+	            }
+	          }
+	        });
+	      });
+	
+	      return currentCell;
+	    }
+	  }, {
+	    key: 'findCellByCoords',
+	    value: function findCellByCoords(y, x) {
+	
+	      var currentCell = void 0;
+	
+	      _Game2.default.board.cells.forEach(function (rows) {
+	        rows.forEach(function (cell) {
+	          if (cell.y == y && cell.x == x) {
+	            currentCell = cell;
+	          }
+	        });
+	      });
+	
+	      return currentCell;
+	    }
+	  }, {
+	    key: 'renderFigureOnBeatBoard',
+	    value: function renderFigureOnBeatBoard(figure) {
+	      var _this = this;
+	
+	      var figureDiv = document.createElement('div'),
+	          isWhite = figure.color === 'white',
+	          boardLength = isWhite ? this.beatedWhiteFigures.length : this.beatedBlackFigures.length;
+	
+	      figureDiv.className = 'figure';
+	      figureDiv.style.backgroundPosition = figure.position;
+	      figureDiv.style.left = boardLength > 7 ? (boardLength - 8) * 70 + 'px' : boardLength * 70 + 'px';
+	      figureDiv.style.top = boardLength > 7 ? 70 + 'px' : 0 + 'px';
+	
+	      figureDiv.addEventListener('click', function (e) {
+	
+	        if (isWhite) {
+	          if (!_this.whiteAvailable) return;
+	        } else {
+	          if (!_this.blackAvailable) return;
+	        }
+	
+	        var _game$board$cellToSwi = _Game2.default.board.cellToSwitch,
+	            x = _game$board$cellToSwi.x,
+	            y = _game$board$cellToSwi.y;
+	
+	
+	        _Game2.default.board.cellToSwitch.figure.element.remove();
+	
+	        _Game2.default.board.renderOnBoard(figure, x, y);
+	
+	        figureDiv.remove();
+	
+	        _Game2.default.board.unfreezeClicks();
+	
+	        if (isWhite) {
+	          _this.beatWhiteBoard.classList.remove('available');
+	        } else {
+	          _this.beatBlackBoard.classList.remove('available');
+	        }
+	      });
+	
+	      if (isWhite) {
+	        this.beatWhiteBoard.appendChild(figureDiv);
+	      } else {
+	        this.beatBlackBoard.appendChild(figureDiv);
+	      }
+	    }
+	  }]);
+	
+	  return FiguresManager;
+	}();
+	
+	var figuresManager = new FiguresManager();
+	
+	exports.default = figuresManager;
+
+/***/ },
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17970,22 +17922,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Pawn = function () {
-	  function Pawn(color, x, y) {
+	  function Pawn(color, x, y, id) {
 	    _classCallCheck(this, Pawn);
 	
+	    this.id = id;
 	    this.type = 'Pawn';
 	    this.color = color;
 	    this.x = x;
 	    this.y = y;
 	    this.nextAvailableCells = null;
 	    this.element = null;
-	    this.position = this._getPosition();
+	    this.position = this.getPosition();
 	    this.isFirstStep = true;
 	  }
 	
 	  _createClass(Pawn, [{
-	    key: '_getPosition',
-	    value: function _getPosition() {
+	    key: 'getPosition',
+	    value: function getPosition() {
 	      if (this.color === 'white') {
 	        return '-595px -116px';
 	      } else {
@@ -17997,8 +17950,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function searchNextAvailablePosition(cells) {
 	      var _this = this;
 	
-	      var forwardCells = this._forwardCell(cells),
-	          otherCells = this._toBeat(cells),
+	      var forwardCells = this.forwardCell(cells),
+	          otherCells = this.toBeat(cells),
 	          availableCells = [];
 	
 	      forwardCells.forEach(function (item) {
@@ -18018,17 +17971,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.nextAvailableCells = availableCells;
 	    }
 	  }, {
-	    key: '_forwardCell',
-	    value: function _forwardCell(cells) {
+	    key: 'forwardCell',
+	    value: function forwardCell(cells) {
 	      if (this.color === 'white') {
-	        return this.isFirstStep ? this._getFirsForwardCell(cells, this.color) : [cells[this.y + 1][this.x]];
+	        return this.isFirstStep ? this.getFirsForwardCell(cells, this.color) : [cells[this.y + 1][this.x]];
 	      } else {
-	        return this.isFirstStep ? this._getFirsForwardCell(cells, this.color) : [cells[this.y - 1][this.x]];
+	        return this.isFirstStep ? this.getFirsForwardCell(cells, this.color) : [cells[this.y - 1][this.x]];
 	      }
 	    }
 	  }, {
-	    key: '_getFirsForwardCell',
-	    value: function _getFirsForwardCell(cells, color) {
+	    key: 'getFirsForwardCell',
+	    value: function getFirsForwardCell(cells, color) {
 	      if (color === 'white' && cells[this.y + 1][this.x].isEmpty()) {
 	        return [cells[this.y + 1][this.x], cells[this.y + 2][this.x]];
 	      } else if (color === 'white' && !cells[this.y + 1][this.x].isEmpty()) {
@@ -18040,14 +17993,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
-	    key: '_toBeat',
-	    value: function _toBeat(cells) {
+	    key: 'toBeat',
+	    value: function toBeat(cells) {
 	      var toBeatArr = [];
 	
-	      if (this.color === 'white') {
+	      if (this.color === 'white' && cells[this.y + 1]) {
 	        toBeatArr.push(cells[this.y + 1][this.x + 1]);
 	        toBeatArr.push(cells[this.y + 1][this.x - 1]);
-	      } else {
+	      } else if (cells[this.y - 1]) {
 	        toBeatArr.push(cells[this.y - 1][this.x + 1]);
 	        toBeatArr.push(cells[this.y - 1][this.x - 1]);
 	      }
@@ -18062,7 +18015,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Pawn;
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18076,21 +18029,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Rook = function () {
-	  function Rook(color, x, y) {
+	  function Rook(color, x, y, id) {
 	    _classCallCheck(this, Rook);
 	
+	    this.id = id;
 	    this.type = 'Rook';
 	    this.color = color;
 	    this.x = x;
 	    this.y = y;
 	    this.nextAvailableCells = null;
 	    this.element = null;
-	    this.position = this._getPosition();
+	    this.position = this.getPosition();
 	  }
 	
 	  _createClass(Rook, [{
-	    key: '_getPosition',
-	    value: function _getPosition() {
+	    key: 'getPosition',
+	    value: function getPosition() {
 	      if (this.color === 'white') {
 	        return '-263px -116px';
 	      } else {
@@ -18100,21 +18054,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
-	      this.nextAvailableCells = this._findAll(cells);
+	      this.nextAvailableCells = this.findAll(cells);
 	    }
 	  }, {
-	    key: '_findAll',
-	    value: function _findAll(cells) {
+	    key: 'findAll',
+	    value: function findAll(cells) {
 	      var _this = this;
 	
 	      var xArr = [],
 	          yArr = [];
 	
-	      cells[this.y].forEach(function (item) {
-	        if (item.x !== _this.x) {
-	          xArr.push(item);
-	        }
-	      });
+	      if (cells[this.y]) {
+	        cells[this.y].forEach(function (item) {
+	          if (item.x !== _this.x) {
+	            xArr.push(item);
+	          }
+	        });
+	      }
 	
 	      cells.forEach(function (row) {
 	        row.forEach(function (item) {
@@ -18124,11 +18080,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	      });
 	
-	      return this._getAvailableOnly(xArr, yArr);
+	      return this.getAvailableOnly(xArr, yArr);
 	    }
 	  }, {
-	    key: '_getAvailableOnly',
-	    value: function _getAvailableOnly(xArr, yArr) {
+	    key: 'getAvailableOnly',
+	    value: function getAvailableOnly(xArr, yArr) {
 	      var available = [];
 	
 	      for (var i = this.x; i < xArr.length; i++) {
@@ -18208,7 +18164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Rook;
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18222,22 +18178,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Horse = function () {
-	  function Horse(color, x, y) {
+	  function Horse(color, x, y, id) {
 	    _classCallCheck(this, Horse);
 	
-	    this.type = 'Pawn';
+	    this.id = id;
+	    this.type = 'Horse';
 	    this.color = color;
 	    this.x = x;
 	    this.y = y;
 	    this.nextAvailableCells = [];
 	    this.element = null;
-	    this.position = this._getPosition();
+	    this.position = this.getPosition();
 	    this.isFirstStep = true;
 	  }
 	
 	  _createClass(Horse, [{
-	    key: '_getPosition',
-	    value: function _getPosition() {
+	    key: 'getPosition',
+	    value: function getPosition() {
 	      if (this.color === 'white') {
 	        return '-484px -116px';
 	      } else {
@@ -18248,11 +18205,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
 	      this.nextAvailableCells = [];
-	      this.nextAvailableCells = this.nextAvailableCells.concat(this._findAll(cells));
+	      this.nextAvailableCells = this.nextAvailableCells.concat(this.findAll(cells));
 	    }
 	  }, {
-	    key: '_findAll',
-	    value: function _findAll(cells) {
+	    key: 'findAll',
+	    value: function findAll(cells) {
 	      var horseGCells = [],
 	          firstCell = cells[this.y + 2] && cells[this.y + 2][this.x + 1],
 	          secondCell = cells[this.y + 2] && cells[this.y + 2][this.x - 1],
@@ -18265,7 +18222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (firstCell) {
 	        if (!firstCell.isEmpty()) {
-	          this._toBeat(firstCell);
+	          this.toBeat(firstCell);
 	        } else {
 	          horseGCells.push(firstCell);
 	        }
@@ -18273,7 +18230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (secondCell) {
 	        if (!secondCell.isEmpty()) {
-	          this._toBeat(secondCell);
+	          this.toBeat(secondCell);
 	        } else {
 	          horseGCells.push(secondCell);
 	        }
@@ -18281,7 +18238,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (thirdCell) {
 	        if (!thirdCell.isEmpty()) {
-	          this._toBeat(thirdCell);
+	          this.toBeat(thirdCell);
 	        } else {
 	          horseGCells.push(thirdCell);
 	        }
@@ -18289,7 +18246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (fourthCell) {
 	        if (!fourthCell.isEmpty()) {
-	          this._toBeat(fourthCell);
+	          this.toBeat(fourthCell);
 	        } else {
 	          horseGCells.push(fourthCell);
 	        }
@@ -18297,7 +18254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (fifthCell) {
 	        if (!fifthCell.isEmpty()) {
-	          this._toBeat(fifthCell);
+	          this.toBeat(fifthCell);
 	        } else {
 	          horseGCells.push(fifthCell);
 	        }
@@ -18305,7 +18262,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (sixthCell) {
 	        if (!sixthCell.isEmpty()) {
-	          this._toBeat(sixthCell);
+	          this.toBeat(sixthCell);
 	        } else {
 	          horseGCells.push(sixthCell);
 	        }
@@ -18313,7 +18270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (seventhCell) {
 	        if (!seventhCell.isEmpty()) {
-	          this._toBeat(seventhCell);
+	          this.toBeat(seventhCell);
 	        } else {
 	          horseGCells.push(seventhCell);
 	        }
@@ -18321,7 +18278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (eightCell) {
 	        if (!eightCell.isEmpty()) {
-	          this._toBeat(eightCell);
+	          this.toBeat(eightCell);
 	        } else {
 	          horseGCells.push(eightCell);
 	        }
@@ -18330,8 +18287,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return horseGCells;
 	    }
 	  }, {
-	    key: '_toBeat',
-	    value: function _toBeat(cell) {
+	    key: 'toBeat',
+	    value: function toBeat(cell) {
 	      if (cell.figure.color !== this.color) {
 	        this.nextAvailableCells.push(cell);
 	      }
@@ -18344,7 +18301,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Horse;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18358,21 +18315,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Officer = function () {
-	  function Officer(color, x, y) {
+	  function Officer(color, x, y, id) {
 	    _classCallCheck(this, Officer);
 	
+	    this.id = id;
 	    this.type = 'Officer';
 	    this.color = color;
 	    this.x = x;
 	    this.y = y;
 	    this.nextAvailableCells = null;
 	    this.element = null;
-	    this.position = this._getPosition();
+	    this.position = this.getPosition();
 	  }
 	
 	  _createClass(Officer, [{
-	    key: '_getPosition',
-	    value: function _getPosition() {
+	    key: 'getPosition',
+	    value: function getPosition() {
 	      if (this.color === 'white') {
 	        return '-372px -116px';
 	      } else {
@@ -18382,11 +18340,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
-	      this.nextAvailableCells = this._findAll(cells);
+	      this.nextAvailableCells = this.findAll(cells);
 	    }
 	  }, {
-	    key: '_findAll',
-	    value: function _findAll(cells) {
+	    key: 'findAll',
+	    value: function findAll(cells) {
 	      var available = [];
 	
 	      for (var r = 0; r < cells.length - this.y; r++) {
@@ -18478,7 +18436,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Officer;
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18492,21 +18450,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Queen = function () {
-	  function Queen(color, x, y) {
+	  function Queen(color, x, y, id) {
 	    _classCallCheck(this, Queen);
 	
+	    this.id = id;
 	    this.type = 'Queen';
 	    this.color = color;
 	    this.x = x;
 	    this.y = y;
 	    this.nextAvailableCells = null;
 	    this.element = null;
-	    this.position = this._getPosition();
+	    this.position = this.getPosition();
 	  }
 	
 	  _createClass(Queen, [{
-	    key: '_getPosition',
-	    value: function _getPosition() {
+	    key: 'getPosition',
+	    value: function getPosition() {
 	      if (this.color === 'white') {
 	        return '-150px -116px';
 	      } else {
@@ -18516,14 +18475,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'searchNextAvailablePosition',
 	    value: function searchNextAvailablePosition(cells) {
-	      var rookCells = this._findAllRook(cells),
-	          officerCells = this._findAll(cells);
+	      var rookCells = this.findAllRook(cells),
+	          officerCells = this.findAll(cells);
 	
 	      this.nextAvailableCells = rookCells.concat(officerCells);
 	    }
 	  }, {
-	    key: '_findAll',
-	    value: function _findAll(cells) {
+	    key: 'findAll',
+	    value: function findAll(cells) {
 	      var available = [];
 	
 	      for (var r = 0; r < cells.length - this.y; r++) {
@@ -18608,8 +18567,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return available;
 	    }
 	  }, {
-	    key: '_findAllRook',
-	    value: function _findAllRook(cells) {
+	    key: 'findAllRook',
+	    value: function findAllRook(cells) {
 	      var _this = this;
 	
 	      var xArr = [],
@@ -18629,11 +18588,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	      });
 	
-	      return this._getAvailableOnly(xArr, yArr);
+	      return this.getAvailableOnly(xArr, yArr);
 	    }
 	  }, {
-	    key: '_getAvailableOnly',
-	    value: function _getAvailableOnly(xArr, yArr) {
+	    key: 'getAvailableOnly',
+	    value: function getAvailableOnly(xArr, yArr) {
 	      var available = [];
 	
 	      for (var i = this.x; i < xArr.length; i++) {
@@ -18710,6 +18669,317 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 	
 	exports.default = Queen;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var King = function () {
+	  function King(color, x, y, id) {
+	    _classCallCheck(this, King);
+	
+	    this.id = id;
+	    this.type = 'King';
+	    this.color = color;
+	    this.x = x;
+	    this.y = y;
+	    this.nextAvailableCells = null;
+	    this.element = null;
+	    this.position = this.getPosition();
+	  }
+	
+	  _createClass(King, [{
+	    key: 'getPosition',
+	    value: function getPosition() {
+	      if (this.color === 'white') {
+	        return '-41px -116px';
+	      } else {
+	        return '-41px -16px';
+	      }
+	    }
+	  }, {
+	    key: 'searchNextAvailablePosition',
+	    value: function searchNextAvailablePosition(cells, withoutOpponent) {
+	      var rookCells = this.findAllRook(cells),
+	          opponentAvailablePositions = !withoutOpponent && this.findOpponentAvailablePositions(cells),
+	          officerCells = this.findAll(cells);
+	
+	      var availableArr = rookCells.concat(officerCells);
+	
+	      if (!withoutOpponent) {
+	        var delCells = [];
+	        var allAvailableSells = [];
+	
+	        availableArr.forEach(function (cell) {
+	          opponentAvailablePositions.forEach(function (opponentCell) {
+	            if (cell.x === opponentCell.x && cell.y === opponentCell.y) {
+	              delCells.push(cell);
+	            }
+	          });
+	        });
+	
+	        availableArr.forEach(function (cell) {
+	          var choosenCell = delCells.find(function (cell2) {
+	            return cell.x === cell2.x && cell.y === cell2.y;
+	          });
+	
+	          if (!choosenCell) allAvailableSells.push(cell);
+	        });
+	
+	        this.nextAvailableCells = allAvailableSells;
+	      } else {
+	        this.nextAvailableCells = availableArr;
+	      }
+	    }
+	  }, {
+	    key: 'findAll',
+	    value: function findAll(cells) {
+	      var available = [];
+	
+	      for (var r = 0; r < cells.length - this.y; r++) {
+	        //to right bottom
+	
+	        var cell = cells[this.y + r][this.x + r];
+	
+	        if (cell && cell.x !== this.x && cell.y !== this.y) {
+	          if (cell && cell.isEmpty()) {
+	            available.push(cell);
+	            break;
+	          }
+	
+	          if (cell && !cell.isEmpty()) {
+	            if (cell.figure.color !== this.color) {
+	              available.push(cell);
+	            }
+	            break;
+	          }
+	        }
+	      }
+	
+	      for (var _r = 0; _r < cells.length - this.y; _r++) {
+	        //to left bottom
+	
+	        var _cell = cells[this.y + _r][this.x - _r];
+	
+	        if (_cell && _cell.x !== this.x && _cell.y !== this.y) {
+	          if (_cell && _cell.isEmpty()) {
+	            available.push(_cell);
+	            break;
+	          }
+	
+	          if (_cell && !_cell.isEmpty()) {
+	            if (_cell.figure.color !== this.color) {
+	              available.push(_cell);
+	            }
+	            break;
+	          }
+	        }
+	      }
+	
+	      var xRightToTop = 1;
+	      for (var _r2 = this.y - 1; _r2 >= 0; _r2--) {
+	        //to right top
+	
+	        var _cell2 = cells[_r2][this.x + xRightToTop];
+	        xRightToTop++;
+	        if (_cell2 && _cell2.x !== this.x && _cell2.y !== this.y) {
+	          if (_cell2 && _cell2.isEmpty()) {
+	            available.push(_cell2);
+	            break;
+	          }
+	
+	          if (_cell2 && !_cell2.isEmpty()) {
+	            if (_cell2.figure.color !== this.color) {
+	              available.push(_cell2);
+	            }
+	            break;
+	          }
+	        }
+	      }
+	
+	      var xLeftToTop = 1;
+	      for (var _r3 = this.y - 1; _r3 >= 0; _r3--) {
+	        //to left top
+	
+	        var _cell3 = cells[_r3][this.x - xLeftToTop];
+	        xLeftToTop++;
+	
+	        if (_cell3 && _cell3.x !== this.x && _cell3.y !== this.y) {
+	          if (_cell3 && _cell3.isEmpty()) {
+	            available.push(_cell3);
+	            break;
+	          }
+	
+	          if (_cell3 && !_cell3.isEmpty()) {
+	            if (_cell3.figure.color !== this.color) {
+	              available.push(_cell3);
+	            }
+	            break;
+	          }
+	        }
+	      }
+	
+	      return available;
+	    }
+	  }, {
+	    key: 'findAllRook',
+	    value: function findAllRook(cells) {
+	      var _this = this;
+	
+	      var xArr = [],
+	          yArr = [];
+	
+	      cells[this.y].forEach(function (item) {
+	        if (item.x !== _this.x) {
+	          xArr.push(item);
+	        }
+	      });
+	
+	      cells.forEach(function (row) {
+	        row.forEach(function (item) {
+	          if (item.y !== _this.y && _this.x === item.x) {
+	            yArr.push(item);
+	          }
+	        });
+	      });
+	
+	      return this.getAvailableOnly(xArr, yArr);
+	    }
+	  }, {
+	    key: 'getAvailableOnly',
+	    value: function getAvailableOnly(xArr, yArr) {
+	      var available = [];
+	
+	      for (var i = this.x; i < xArr.length; i++) {
+	        //to right bottom
+	        if (xArr[i]) {
+	          if (xArr[i].x > this.x && xArr[i].isEmpty()) {
+	            available.push(xArr[i]);
+	            break;
+	          }
+	          if (xArr[i].x > this.x && !xArr[i].isEmpty()) {
+	            if (xArr[i].figure.color !== this.color) {
+	              available.push(xArr[i]);
+	            }
+	            break;
+	          }
+	        } else {
+	          break;
+	        }
+	      }
+	
+	      for (var _i = this.x - 1; _i >= 0; _i--) {
+	        //to left
+	        if (xArr[_i]) {
+	          if (xArr[_i].x < this.x && xArr[_i].isEmpty()) {
+	            available.push(xArr[_i]);
+	            break;
+	          }
+	          if (xArr[_i].x < this.x && !xArr[_i].isEmpty()) {
+	            if (xArr[_i].figure.color !== this.color) {
+	              available.push(xArr[_i]);
+	            }
+	            break;
+	          }
+	        } else {
+	          break;
+	        }
+	      }
+	
+	      for (var _i2 = this.y; _i2 >= 0; _i2--) {
+	        //to top
+	        if (yArr[_i2]) {
+	          if (yArr[_i2].y < this.y && yArr[_i2].isEmpty()) {
+	            available.push(yArr[_i2]);
+	            break;
+	          }
+	          if (yArr[_i2].y < this.y && !yArr[_i2].isEmpty()) {
+	            if (yArr[_i2].figure.color !== this.color) {
+	              available.push(yArr[_i2]);
+	            }
+	            break;
+	          }
+	        }
+	      }
+	
+	      for (var _i3 = this.y; _i3 < yArr.length; _i3++) {
+	        //to bottom
+	        if (yArr[_i3]) {
+	          if (yArr[_i3].y > this.y && yArr[_i3].isEmpty()) {
+	            available.push(yArr[_i3]);
+	            break;
+	          }
+	
+	          if (yArr[_i3].y > this.y && !yArr[_i3].isEmpty()) {
+	
+	            if (yArr[_i3].figure.color !== this.color) {
+	              available.push(yArr[_i3]);
+	            }
+	            break;
+	          }
+	        }
+	      }
+	
+	      return available;
+	    }
+	  }, {
+	    key: 'findOpponentAvailablePositions',
+	    value: function findOpponentAvailablePositions(cells) {
+	      var _this2 = this;
+	
+	      var opponentAvailablePositions = [];
+	
+	      cells.forEach(function (row) {
+	        row.forEach(function (cell) {
+	          if (cell.figure && cell.figure.color !== _this2.color) {
+	            if (cell.figure.type !== 'Pawn') {
+	              cell.figure.searchNextAvailablePosition(cells, true); // true is for King only
+	
+	              cell.figure.nextAvailableCells.forEach(function (item) {
+	
+	                if (item) {
+	                  var existItem = opponentAvailablePositions.find(function (item2) {
+	                    return item.x === item2.x && item.y === item2.y;
+	                  });
+	
+	                  if (!existItem) opponentAvailablePositions.push(item);
+	                }
+	              });
+	            } else if (cell.figure.type === 'Pawn') {
+	
+	              cell.figure.toBeat(cells).forEach(function (item) {
+	
+	                if (item) {
+	                  var existItem = opponentAvailablePositions.find(function (item2) {
+	                    return item.x === item2.x && item.y === item2.y;
+	                  });
+	
+	                  if (!existItem) opponentAvailablePositions.push(item);
+	                }
+	              });
+	            }
+	          }
+	        });
+	      });
+	
+	      return opponentAvailablePositions;
+	    }
+	  }]);
+	
+	  return King;
+	}();
+	
+	exports.default = King;
 
 /***/ }
 /******/ ])

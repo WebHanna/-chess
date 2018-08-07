@@ -3,7 +3,7 @@
 export default class King {
 
   constructor(color, x, y, id){
-		this.id = id;
+    this.id = id;
     this.type = 'King';
     this.color = color;
     this.x = x;
@@ -21,15 +21,42 @@ export default class King {
     }
   }
 
-  searchNextAvailablePosition(cells){
-    const rookCells = this._findAllRook(cells),
-      officerCells = this._findAll(cells);
+  searchNextAvailablePosition(cells, withoutOpponent){
+    const rookCells = this.findAllRook(cells),
+      opponentAvailablePositions = !withoutOpponent && this.findOpponentAvailablePositions(cells),
+      officerCells = this.findAll(cells);
 
+    const availableArr = rookCells.concat(officerCells);
 
-    this.nextAvailableCells = rookCells.concat(officerCells);
-	}
+    if(!withoutOpponent){
+      const delCells = [];
+      const allAvailableSells = [];
 
-  _findAll(cells){
+      availableArr.forEach(cell => {
+        opponentAvailablePositions.forEach(opponentCell => {
+          if(cell.x === opponentCell.x && cell.y === opponentCell.y){
+            delCells.push(cell);
+          }
+        })
+      });
+
+      availableArr.forEach(cell => {
+        let choosenCell = delCells.find(cell2 => {
+          return cell.x === cell2.x && cell.y === cell2.y;
+        });
+
+        if(!choosenCell)
+          allAvailableSells.push(cell);
+      });
+
+      this.nextAvailableCells = allAvailableSells;
+    } else {
+      this.nextAvailableCells = availableArr;
+    }
+
+  }
+
+  findAll(cells){
     const available = [];
 
     for (let r = 0; r < cells.length - this.y; r++){ //to right bottom
@@ -114,7 +141,7 @@ export default class King {
     return available;
   }
 
-  _findAllRook(cells){
+  findAllRook(cells){
     const xArr = [],
       yArr = [];
 
@@ -132,13 +159,13 @@ export default class King {
       })
     });
 
-    return this._getAvailableOnly(xArr, yArr);
+    return this.getAvailableOnly(xArr, yArr);
   }
 
-  _getAvailableOnly(xArr, yArr) {
+  getAvailableOnly(xArr, yArr) {
     const available = [];
 
-    for (let i=this.x; i < xArr.length; i++){ // to right bottom
+    for (let i=this.x; i < xArr.length; i++){ //to right bottom
       if(xArr[i]){
         if(xArr[i].x > this.x && xArr[i].isEmpty()){
           available.push(xArr[i]);
@@ -155,7 +182,7 @@ export default class King {
       }
     }
 
-    for (let i=this.x -1; i >= 0; i--){ // to left
+    for (let i=this.x -1; i >= 0; i--){ //to left
       if(xArr[i]){
         if(xArr[i].x < this.x && xArr[i].isEmpty()){
           available.push(xArr[i]);
@@ -173,7 +200,7 @@ export default class King {
 
     }
 
-    for (let i=this.y; i >= 0; i--){ // to top
+    for (let i=this.y; i >= 0; i--){ //to top
       if(yArr[i]){
         if(yArr[i].y < this.y && yArr[i].isEmpty()){
           available.push(yArr[i]);
@@ -188,7 +215,7 @@ export default class King {
       }
     }
 
-    for (let i=this.y; i < yArr.length; i++){ // to bottom
+    for (let i=this.y; i < yArr.length; i++){ //to bottom
       if(yArr[i]){
         if(yArr[i].y > this.y && yArr[i].isEmpty()){
           available.push(yArr[i]);
@@ -206,5 +233,43 @@ export default class King {
     }
 
     return available;
+  }
+
+  findOpponentAvailablePositions(cells){
+    let opponentAvailablePositions = [];
+
+    cells.forEach(row => {
+      row.forEach(cell => {
+        if(cell.figure && cell.figure.color !== this.color){
+          if(cell.figure.type !== 'Pawn'){
+            cell.figure.searchNextAvailablePosition(cells, true); // true is for King only
+
+            cell.figure.nextAvailableCells.forEach(item => {
+
+              if(item) {
+                let existItem = opponentAvailablePositions.find(item2 => item.x === item2.x && item.y === item2.y);
+
+                if(!existItem) opponentAvailablePositions.push(item);
+              }
+
+            });
+
+          } else if (cell.figure.type === 'Pawn') {
+
+            cell.figure.toBeat(cells).forEach(item => {
+
+              if(item){
+                let existItem = opponentAvailablePositions.find(item2 => item.x === item2.x && item.y === item2.y);
+
+                if(!existItem) opponentAvailablePositions.push(item);
+              }
+
+            });
+          }
+        }
+      });
+    });
+
+    return opponentAvailablePositions;
   }
 }

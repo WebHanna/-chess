@@ -2,7 +2,8 @@
 
 export default class Rook {
 
-  constructor(color, x, y){
+  constructor(color, x, y, id){
+    this.id = id;
     this.type = 'Rook';
     this.color = color;
     this.x = x;
@@ -21,18 +22,20 @@ export default class Rook {
   }
 
   searchNextAvailablePosition(cells){
-    this.nextAvailableCells = this._findAll(cells);
+    this.nextAvailableCells = this.findAll(cells);
   }
 
-  _findAll(cells){
+  findAll(cells){
     const xArr = [],
           yArr = [];
 
-    cells[this.y].forEach(item => {
-      if(item.x !== this.x){
-        xArr.push(item);
-      }
-    });
+    if(cells[this.y]){
+      cells[this.y].forEach(item => {
+        if(item.x !== this.x){
+          xArr.push(item);
+        }
+      });
+    }
 
     cells.forEach(row => {
       row.forEach(item => {
@@ -42,10 +45,10 @@ export default class Rook {
       })
     });
 
-    return this._getAvailableOnly(xArr, yArr);
+    return this.getAvailableOnly(xArr, yArr);
   }
 
-  _getAvailableOnly(xArr, yArr) {
+  getAvailableOnly(xArr, yArr) {
     const available = [];
 
     for (let i=this.x; i < xArr.length; i++){ //to right

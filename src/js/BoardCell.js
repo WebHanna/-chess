@@ -20,58 +20,70 @@ export default class BoardCell {
     cell.dataset.y = this.y;
     cell.style.left = this.x * 70 + 'px';
     cell.style.top = this.y * 70 + 'px';
-    this._setCellOnClick(cell);
+    this.setCellOnClick(cell);
 
     return cell;
   }
 
   setFigure(figure) {
     this.figure = figure;
-    this._renderInitialFigure();
+    this.renderInitialFigure();
   }
 
-  _setCellOnClick(cell){
+  setCellOnClick(cell){
     cell.addEventListener('click', (e) => {
+
+      if(game.board.isBoardBlocked) return;
 
       const targetCell = e.target;
       const currentFigure = _.cloneDeep(game.selectedFigure);
       const currentCell = figuresManager.findCellByCoords(targetCell.dataset.y, targetCell.dataset.x);
+
       if(game.selectedFigure && currentCell.available){
-        figuresManager._removeFigureFromCell(currentFigure.y, currentFigure.x);
+        figuresManager.removeFigureFromCell(currentFigure.y, currentFigure.x);
 
         figuresManager.moveFigure({x: targetCell.dataset.x, y: targetCell.dataset.y}, currentFigure);
         currentCell.figure = currentFigure;
         game.selectedFigure = null;
+
+        game.turnEnd();
       }
-
-
-
-      game.turnEnd();
     });
   }
 
-  _setFigureOnClick(){
+  setFigureOnClick(){
     this.figure.element.addEventListener('click', (e) => {
-      figuresManager.checkMate();
+
+      if(game.board.isBoardBlocked) return;
+
       const targetFigure = e.target;
+
       if(!this.isAvailable(targetFigure.dataset)){
-        game.turnEnd();
+        game.board.cells.forEach(row => {
+          row.forEach(cell => {
+            cell.removeAvailable();
+          })
+        });
 
         const currentFigureCell = figuresManager.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
 
-        this.setAvailableNextCells(currentFigureCell);
-
         game.selectedFigure = _.cloneDeep(currentFigureCell.figure);
+
+        if(game.selectedFigure.color === game.turn){
+          this.setAvailableNextCells(currentFigureCell);
+          game.savePreviousState()
+        }
+
       } else {
         const currentFigureCell = figuresManager.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
 
         figuresManager.beatFigure(currentFigureCell);
+        game.turnEnd();
       }
     });
   }
 
   setAvailableNextCells(currentFigureCell){
-    // console.log("currentFigureCell", currentFigureCell);
     currentFigureCell.figure.searchNextAvailablePosition(game.board.cells);
     currentFigureCell.figure.nextAvailableCells.forEach(cell => {cell.setAvailable()});
   }
@@ -94,7 +106,7 @@ export default class BoardCell {
     return game.board.cells[figure.y][figure.x].available
   }
 
-  _renderInitialFigure() {
+  renderInitialFigure() {
     const figureDiv = document.createElement('div');
     figureDiv.className = 'figure';
     figureDiv.style.backgroundPosition = this.figure.position;
@@ -102,13 +114,10 @@ export default class BoardCell {
     figureDiv.style.top = this.y * 70 + 'px';
     figureDiv.dataset.x = this.x;
     figureDiv.dataset.y = this.y;
-
-    if(this.figure.id) {
-      figureDiv.id = this.figure.id;
-    }
+    figureDiv.id = this.figure.id;
 
     this.figure.element = figureDiv;
-    this._setFigureOnClick();
+    this.setFigureOnClick();
 
     game.board.element.appendChild(this.figure.element);
   }

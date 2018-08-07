@@ -1,37 +1,28 @@
 import game from './Game';
-import king from './figures/King';
 import _ from 'lodash';
 
 class FiguresManager {
 
   constructor(){
-		this.king = null;
     this.beatedBlackFigures = [];
     this.beatedWhiteFigures = [];
     this.beatBlackBoard = document.getElementById('beatBlack');
+    this.blackAvailable = false;
     this.beatWhiteBoard = document.getElementById('beatWhite');
-	}
+    this.whiteAvailable = false;
+  }
 
-	checkMate() {
-		const kingf = document.getElementById("12");
-	//	console.log("king", king);
-	// const currentFigureCell = figuresManager.findFigureByCoords(targetFigure.dataset.y, targetFigure.dataset.x);
-// 	console.log("currentFigureCell", currentFigureCell);
-// 		const kingIsAvailable = kingf.classList.contains("available");
+  chooseBlack(){
+    this.beatBlackBoard.classList.add('available');
+    this.blackAvailable = true;
+  }
 
-	// 	console.log("king", king);
+  chooseWhite(){
+    this.beatWhiteBoard.classList.add('available');
+    this.whiteAvailable = true;
+  }
 
-//	if(kingIsAvailable) {
-	  console.log("king" ,king);
-//	}
-
-	// console.log("cells47", this.searchNextAvailablePosition(cells));
-
-// console.log("kingIsAvailable", kingIsAvailable);
-
-}
-
-  _removeFigureFromCell(y, x){
+  removeFigureFromCell(y, x){
     game.board.cells[y][x].figure = null;
   }
 
@@ -39,13 +30,13 @@ class FiguresManager {
     currentFigureCell.figure.element.remove();
 
     if(currentFigureCell.figure.color === 'white'){
-      this._renderFigureOnBeatBoard(currentFigureCell.figure);
+      this.renderFigureOnBeatBoard(currentFigureCell.figure);
       this.beatedWhiteFigures.push(currentFigureCell.figure);
     } else {
-      this._renderFigureOnBeatBoard(currentFigureCell.figure);
+      this.renderFigureOnBeatBoard(currentFigureCell.figure);
       this.beatedBlackFigures.push(currentFigureCell.figure);
     }
-    this._removeFigureFromCell(y, x);
+    this.removeFigureFromCell(y, x);
   }
 
   beatFigure(currentFigureCell){
@@ -57,7 +48,6 @@ class FiguresManager {
     currentFigureCell.figure = _.cloneDeep(currentFigure);
 
     game.selectedFigure = null;
-    game.turnEnd();
   }
 
   moveFigure(cell, figure){
@@ -106,7 +96,7 @@ class FiguresManager {
     return currentCell;
   }
 
-  _renderFigureOnBeatBoard (figure){
+  renderFigureOnBeatBoard (figure){
     const figureDiv = document.createElement('div'),
           isWhite = figure.color === 'white',
           boardLength = isWhite ? this.beatedWhiteFigures.length : this.beatedBlackFigures.length ;
@@ -116,12 +106,37 @@ class FiguresManager {
     figureDiv.style.left = boardLength > 7 ? (boardLength - 8) * 70 + 'px' : boardLength * 70 + 'px';
     figureDiv.style.top = boardLength > 7 ? 70 + 'px' : 0 + 'px';
 
+    figureDiv.addEventListener('click', (e) => {
+
+      if(isWhite){
+        if(!this.whiteAvailable) return;
+      } else {
+        if(!this.blackAvailable) return;
+      }
+
+      const { x, y } = game.board.cellToSwitch;
+
+      game.board.cellToSwitch.figure.element.remove();
+
+      game.board.renderOnBoard(figure, x, y);
+
+      figureDiv.remove();
+
+      game.board.unfreezeClicks();
+
+      if(isWhite){
+        this.beatWhiteBoard.classList.remove('available');
+      } else {
+        this.beatBlackBoard.classList.remove('available');
+      }
+
+    });
+
     if(isWhite){
       this.beatWhiteBoard.appendChild(figureDiv);
     } else {
       this.beatBlackBoard.appendChild(figureDiv);
     }
-
   }
 
 }

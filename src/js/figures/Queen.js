@@ -2,7 +2,8 @@
 
 export default class Queen {
 
-  constructor(color, x, y){
+  constructor(color, x, y, id){
+    this.id = id;
     this.type = 'Queen';
     this.color = color;
     this.x = x;
@@ -21,14 +22,13 @@ export default class Queen {
   }
 
   searchNextAvailablePosition(cells){
-    const rookCells = this._findAllRook(cells),
-          officerCells = this._findAll(cells);
-
+    const rookCells = this.findAllRook(cells),
+          officerCells = this.findAll(cells);
 
     this.nextAvailableCells = rookCells.concat(officerCells);
   }
 
-  _findAll(cells){
+  findAll(cells){
     const available = [];
 
     for (let r = 0; r < cells.length - this.y; r++){ //to right bottom
@@ -109,7 +109,7 @@ export default class Queen {
     return available;
   }
 
-  _findAllRook(cells){
+  findAllRook(cells){
     const xArr = [],
       yArr = [];
 
@@ -127,10 +127,10 @@ export default class Queen {
       })
     });
 
-    return this._getAvailableOnly(xArr, yArr);
+    return this.getAvailableOnly(xArr, yArr);
   }
 
-  _getAvailableOnly(xArr, yArr) {
+  getAvailableOnly(xArr, yArr) {
     const available = [];
 
     for (let i=this.x; i < xArr.length; i++){ //to right bottom

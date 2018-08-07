@@ -2,7 +2,8 @@
 
 export default class Officer {
 
-  constructor(color, x, y){
+  constructor(color, x, y, id){
+    this.id = id;
     this.type = 'Officer';
     this.color = color;
     this.x = x;
@@ -21,10 +22,10 @@ export default class Officer {
   }
 
   searchNextAvailablePosition(cells){
-    this.nextAvailableCells = this._findAll(cells);
+    this.nextAvailableCells = this.findAll(cells);
   }
 
-  _findAll(cells){
+  findAll(cells){
     const available = [];
 
     for (let r = 0; r < cells.length - this.y; r++){ //to right bottom
@@ -104,5 +105,4 @@ export default class Officer {
 
     return available;
   }
-
 }
