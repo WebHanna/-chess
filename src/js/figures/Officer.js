@@ -10,10 +10,10 @@ export default class Officer {
     this.y = y;
     this.nextAvailableCells = null;
     this.element = null;
-    this.position = this.getPosition();
+    this.position = this._getPosition();
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-372px -116px';
     } else {
@@ -22,10 +22,10 @@ export default class Officer {
   }
 
   searchNextAvailablePosition(cells){
-    this.nextAvailableCells = this.findAll(cells);
+    this.nextAvailableCells = this._findAll(cells);
   }
 
-  findAll(cells){
+  _findAll(cells){
     const available = [];
 
     for (let r = 0; r < cells.length - this.y; r++){ //to right bottom

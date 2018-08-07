@@ -10,10 +10,10 @@ export default class Queen {
     this.y = y;
     this.nextAvailableCells = null;
     this.element = null;
-    this.position = this.getPosition();
+    this.position = this._getPosition();
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-150px -116px';
     } else {
@@ -22,13 +22,13 @@ export default class Queen {
   }
 
   searchNextAvailablePosition(cells){
-    const rookCells = this.findAllRook(cells),
-          officerCells = this.findAll(cells);
+    const rookCells = this._findAllRook(cells),
+          officerCells = this._findAll(cells);
 
     this.nextAvailableCells = rookCells.concat(officerCells);
   }
 
-  findAll(cells){
+  _findAll(cells){
     const available = [];
 
     for (let r = 0; r < cells.length - this.y; r++){ //to right bottom
@@ -109,7 +109,7 @@ export default class Queen {
     return available;
   }
 
-  findAllRook(cells){
+  _findAllRook(cells){
     const xArr = [],
       yArr = [];
 
@@ -127,10 +127,10 @@ export default class Queen {
       })
     });
 
-    return this.getAvailableOnly(xArr, yArr);
+    return this._getAvailableOnly(xArr, yArr);
   }
 
-  getAvailableOnly(xArr, yArr) {
+  _getAvailableOnly(xArr, yArr) {
     const available = [];
 
     for (let i=this.x; i < xArr.length; i++){ //to right bottom

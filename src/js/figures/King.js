@@ -10,10 +10,10 @@ export default class King {
     this.y = y;
     this.nextAvailableCells = null;
     this.element = null;
-    this.position = this.getPosition();
+    this.position = this._getPosition();
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-41px -116px';
     } else {
@@ -22,9 +22,9 @@ export default class King {
   }
 
   searchNextAvailablePosition(cells, withoutOpponent){
-    const rookCells = this.findAllRook(cells),
+    const rookCells = this._findAllRook(cells),
       opponentAvailablePositions = !withoutOpponent && this.findOpponentAvailablePositions(cells),
-      officerCells = this.findAll(cells);
+      officerCells = this._findAll(cells);
 
     const availableArr = rookCells.concat(officerCells);
 
@@ -56,7 +56,7 @@ export default class King {
 
   }
 
-  findAll(cells){
+  _findAll(cells){
     const available = [];
 
     for (let r = 0; r < cells.length - this.y; r++){ //to right bottom
@@ -141,7 +141,7 @@ export default class King {
     return available;
   }
 
-  findAllRook(cells){
+  _findAllRook(cells){
     const xArr = [],
       yArr = [];
 
@@ -159,10 +159,10 @@ export default class King {
       })
     });
 
-    return this.getAvailableOnly(xArr, yArr);
+    return this._getAvailableOnly(xArr, yArr);
   }
 
-  getAvailableOnly(xArr, yArr) {
+  _getAvailableOnly(xArr, yArr) {
     const available = [];
 
     for (let i=this.x; i < xArr.length; i++){ //to right bottom

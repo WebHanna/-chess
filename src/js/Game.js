@@ -54,15 +54,15 @@ class Game {
 
   start(){
     this.board.renderBoard();
-    this.setDefaultState();
+    this._setDefaultState();
     this.savePreviousState();
 
     this.cancelButton.addEventListener('click', () => {
-      this.cancelStep();
+      this._cancelStep();
     });
   }
 
-  setDefaultState(){
+  _setDefaultState(){
     this.defaultFiguresState.forEach(initialFigure => {
       this.board.cells.forEach(row => {
         row.forEach(cell => {
@@ -74,7 +74,7 @@ class Game {
     });
   }
 
-  setPreviousState(state){
+  _setPreviousState(state){
     state.forEach(initialFigure => {
       this.board.cells.forEach(row => {
         row.forEach(cell => {
@@ -102,7 +102,7 @@ class Game {
     }
   }
 
-  cancelStep(){
+  _cancelStep(){
 
     if(!this.previousState) return;
 
@@ -126,7 +126,7 @@ class Game {
       })
     });
 
-    this.setPreviousState(newFiguresArr);
+    this._setPreviousState(newFiguresArr);
 
   }
 
@@ -144,7 +144,7 @@ class Game {
       })
     });
 
-    this.checkGameStatus();
+    this._checkGameStatus();
 
     this.board.checkPawnsToChange();
 
@@ -155,7 +155,7 @@ class Game {
     }
   }
 
-  checkGameStatus(){
+  _checkGameStatus(){
     let kingCell,
         kingAvailablePositions,
         opponentPositions;
@@ -174,16 +174,16 @@ class Game {
       kingAvailablePositions = kingCell.figure.nextAvailableCells;
       opponentPositions = kingCell.figure.findOpponentAvailablePositions(this.board.cells);
 
-      if(this.isKingAttacked(kingCell, opponentPositions) && kingAvailablePositions.length === 0){
+      if(this._isKingAttacked(kingCell, opponentPositions) && kingAvailablePositions.length === 0){
         this.mate = this.turn;
-      } else if (this.isKingAttacked(kingCell, opponentPositions)) {
+      } else if (this._isKingAttacked(kingCell, opponentPositions)) {
         this.check = this.turn;
       }
     }
 
   }
 
-  isKingAttacked(kingCell, opponentPositions){
+  _isKingAttacked(kingCell, opponentPositions){
     return !!opponentPositions.find(cell => kingCell.x === cell.x && kingCell.y === cell.y)
   }
 

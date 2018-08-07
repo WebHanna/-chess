@@ -10,10 +10,10 @@ export default class Rook {
     this.y = y;
     this.nextAvailableCells = null;
     this.element = null;
-    this.position = this.getPosition();
+    this.position = this._getPosition();
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-263px -116px';
     } else {
@@ -22,10 +22,10 @@ export default class Rook {
   }
 
   searchNextAvailablePosition(cells){
-    this.nextAvailableCells = this.findAll(cells);
+    this.nextAvailableCells = this._findAll(cells);
   }
 
-  findAll(cells){
+  _findAll(cells){
     const xArr = [],
           yArr = [];
 
@@ -45,10 +45,10 @@ export default class Rook {
       })
     });
 
-    return this.getAvailableOnly(xArr, yArr);
+    return this._getAvailableOnly(xArr, yArr);
   }
 
-  getAvailableOnly(xArr, yArr) {
+  _getAvailableOnly(xArr, yArr) {
     const available = [];
 
     for (let i=this.x; i < xArr.length; i++){ //to right

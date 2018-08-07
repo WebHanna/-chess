@@ -55,7 +55,7 @@ export default class Board {
 
 		const board = document.getElementById('board');
 
-		this.getCells();
+		this._getCells();
 
 		this.cells.forEach(row => {
       row.forEach(cell => {
@@ -70,7 +70,7 @@ export default class Board {
 	  this.cells[y][x].setFigure(game.getInitialFigure({x,y, type: figure.type, color: figure.color, id: figure.id}));
   }
 
-	getCells(){
+	_getCells(){
 		const white = 'white',
 			  black = 'black';
 
@@ -78,16 +78,16 @@ export default class Board {
 
 		for(let i = 0; i < 8; i++){
 			if(i % 2 === 0){
-        arr.push(this.getRow(i, white, black))
+        arr.push(this._getRow(i, white, black))
 			} else {
-        arr.push(this.getRow(i, black, white))
+        arr.push(this._getRow(i, black, white))
 			}
 		}
 
 		this.cells = arr;
 	}
 
-	getRow(y, firstColor, secondColor){
+	_getRow(y, firstColor, secondColor){
 		const arr = [];
 
 		for(let i = 0; i < 8; i++){

@@ -23,10 +23,10 @@ export default class Horse {
 
   searchNextAvailablePosition(cells){
     this.nextAvailableCells = [];
-    this.nextAvailableCells = this.nextAvailableCells.concat(this.findAll(cells));
+    this.nextAvailableCells = this.nextAvailableCells.concat(this._findAll(cells));
   }
 
-  findAll(cells){
+  _findAll(cells){
     const horseGCells = [],
           firstCell = cells[this.y + 2] && cells[this.y + 2][this.x + 1],
           secondCell = cells[this.y + 2] && cells[this.y + 2][this.x - 1],
@@ -39,7 +39,7 @@ export default class Horse {
 
     if(firstCell){
       if(!firstCell.isEmpty()){
-        this.toBeat(firstCell)
+        this._toBeat(firstCell)
       } else {
         horseGCells.push(firstCell);
       }
@@ -47,7 +47,7 @@ export default class Horse {
 
     if(secondCell){
       if(!secondCell.isEmpty()){
-        this.toBeat(secondCell)
+        this._toBeat(secondCell)
       } else {
         horseGCells.push(secondCell);
       }
@@ -55,7 +55,7 @@ export default class Horse {
 
     if(thirdCell){
       if(!thirdCell.isEmpty()){
-        this.toBeat(thirdCell)
+        this._toBeat(thirdCell)
       } else {
         horseGCells.push(thirdCell);
       }
@@ -63,7 +63,7 @@ export default class Horse {
 
     if(fourthCell){
       if(!fourthCell.isEmpty()){
-        this.toBeat(fourthCell)
+        this._toBeat(fourthCell)
       } else {
         horseGCells.push(fourthCell);
       }
@@ -71,7 +71,7 @@ export default class Horse {
 
     if(fifthCell){
       if(!fifthCell.isEmpty()){
-        this.toBeat(fifthCell)
+        this._toBeat(fifthCell)
       } else {
         horseGCells.push(fifthCell);
       }
@@ -79,7 +79,7 @@ export default class Horse {
 
     if(sixthCell){
       if(!sixthCell.isEmpty()){
-        this.toBeat(sixthCell)
+        this._toBeat(sixthCell)
       } else {
         horseGCells.push(sixthCell);
       }
@@ -87,7 +87,7 @@ export default class Horse {
 
     if(seventhCell){
       if(!seventhCell.isEmpty()){
-        this.toBeat(seventhCell)
+        this._toBeat(seventhCell)
       } else {
         horseGCells.push(seventhCell);
       }
@@ -95,7 +95,7 @@ export default class Horse {
 
     if(eightCell){
       if(!eightCell.isEmpty()){
-        this.toBeat(eightCell)
+        this._toBeat(eightCell)
       } else {
         horseGCells.push(eightCell);
       }
@@ -104,7 +104,7 @@ export default class Horse {
     return horseGCells;
   }
 
-  toBeat(cell){
+  _toBeat(cell){
     if(cell.figure.color !== this.color){
       this.nextAvailableCells.push(cell)
     }

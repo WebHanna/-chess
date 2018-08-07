@@ -30,10 +30,10 @@ class FiguresManager {
     currentFigureCell.figure.element.remove();
 
     if(currentFigureCell.figure.color === 'white'){
-      this.renderFigureOnBeatBoard(currentFigureCell.figure);
+      this._renderFigureOnBeatBoard(currentFigureCell.figure);
       this.beatedWhiteFigures.push(currentFigureCell.figure);
     } else {
-      this.renderFigureOnBeatBoard(currentFigureCell.figure);
+      this._renderFigureOnBeatBoard(currentFigureCell.figure);
       this.beatedBlackFigures.push(currentFigureCell.figure);
     }
     this.removeFigureFromCell(y, x);
@@ -96,7 +96,7 @@ class FiguresManager {
     return currentCell;
   }
 
-  renderFigureOnBeatBoard (figure){
+  _renderFigureOnBeatBoard (figure){
     const figureDiv = document.createElement('div'),
           isWhite = figure.color === 'white',
           boardLength = isWhite ? this.beatedWhiteFigures.length : this.beatedBlackFigures.length ;
