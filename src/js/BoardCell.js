@@ -9,28 +9,28 @@ export default class BoardCell {
     this.x = x;
     this.y = y;
     this.figure = null;
-    this.element = this._createCell(color);
+    this.element = this.createCell(color);
     this.available = null;
   }
 
-  _createCell(color) {
+  createCell(color) {
     const cell = document.createElement('div');
     cell.className = 'block ' + color;
     cell.dataset.x = this.x;
     cell.dataset.y = this.y;
     cell.style.left = this.x * 70 + 'px';
     cell.style.top = this.y * 70 + 'px';
-    this._setCellOnClick(cell);
+    this.setCellOnClick(cell);
 
     return cell;
   }
 
   setFigure(figure) {
     this.figure = figure;
-    this._renderInitialFigure();
+    this.renderInitialFigure();
   }
 
-  _setCellOnClick(cell){
+  setCellOnClick(cell){
     cell.addEventListener('click', (e) => {
 
       if(game.board.isBoardBlocked) return;
@@ -51,7 +51,7 @@ export default class BoardCell {
     });
   }
 
-  _setFigureOnClick(){
+  setFigureOnClick(){
     this.figure.element.addEventListener('click', (e) => {
 
       if(game.board.isBoardBlocked) return;
@@ -70,7 +70,7 @@ export default class BoardCell {
         game.selectedFigure = _.cloneDeep(currentFigureCell.figure);
 
         if(game.selectedFigure.color === game.turn){
-          this._setAvailableNextCells(currentFigureCell);
+          this.setAvailableNextCells(currentFigureCell);
           game.savePreviousState()
         }
 
@@ -83,7 +83,7 @@ export default class BoardCell {
     });
   }
 
-  _setAvailableNextCells(currentFigureCell){
+  setAvailableNextCells(currentFigureCell){
     currentFigureCell.figure.searchNextAvailablePosition(game.board.cells);
     currentFigureCell.figure.nextAvailableCells.forEach(cell => {cell.setAvailable()});
   }
@@ -106,7 +106,7 @@ export default class BoardCell {
     return game.board.cells[figure.y][figure.x].available
   }
 
-  _renderInitialFigure() {
+  renderInitialFigure() {
     const figureDiv = document.createElement('div');
     figureDiv.className = 'figure';
     figureDiv.style.backgroundPosition = this.figure.position;
@@ -116,7 +116,7 @@ export default class BoardCell {
     figureDiv.dataset.y = this.y;
 
     this.figure.element = figureDiv;
-    this._setFigureOnClick();
+    this.setFigureOnClick();
 
     game.board.element.appendChild(this.figure.element);
   }

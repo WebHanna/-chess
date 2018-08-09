@@ -27,16 +27,31 @@ class FiguresManager {
   }
 
   removeFigureFromBoard(y, x, currentFigureCell){
+
+    this.checkIfKing(currentFigureCell);
+
     currentFigureCell.figure.element.remove();
 
     if(currentFigureCell.figure.color === 'white'){
-      this._renderFigureOnBeatBoard(currentFigureCell.figure);
+      this.renderFigureOnBeatBoard(currentFigureCell.figure);
       this.beatedWhiteFigures.push(currentFigureCell.figure);
     } else {
-      this._renderFigureOnBeatBoard(currentFigureCell.figure);
+      this.renderFigureOnBeatBoard(currentFigureCell.figure);
       this.beatedBlackFigures.push(currentFigureCell.figure);
     }
     this.removeFigureFromCell(y, x);
+  }
+
+  checkIfKing(currentFigureCell){
+    if(currentFigureCell.figure.type === 'King'){
+      if(currentFigureCell.figure.color === 'white'){
+        alert('Black win');
+        location.reload()
+      } else {
+        alert('White win');
+        location.reload()
+      }
+    }
   }
 
   beatFigure(currentFigureCell){
@@ -96,7 +111,7 @@ class FiguresManager {
     return currentCell;
   }
 
-  _renderFigureOnBeatBoard (figure){
+  renderFigureOnBeatBoard (figure){
     const figureDiv = document.createElement('div'),
           isWhite = figure.color === 'white',
           boardLength = isWhite ? this.beatedWhiteFigures.length : this.beatedBlackFigures.length ;

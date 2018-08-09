@@ -8,11 +8,11 @@ export default class Horse {
     this.y = y;
     this.nextAvailableCells = [];
     this.element = null;
-    this.position = this.getPosition();
+    this.position = this._getPosition();
     this.isFirstStep = true;
   }
 
-  getPosition(){
+  _getPosition(){
     if(this.color === 'white'){
       return '-484px -116px';
     } else {

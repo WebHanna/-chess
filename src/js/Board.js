@@ -42,9 +42,9 @@ export default class Board {
 
       this.cellToSwitch = pawnToChange;
 
-      if(pawnToChange.figure.color === 'white' && figuresManager.beatWhiteBoard.length){
+      if(pawnToChange.figure.color === 'white' && figuresManager.beatedWhiteFigures.length){
         figuresManager.chooseWhite();
-      } else if (figuresManager.beatBlackBoard.length){
+      } else if (figuresManager.beatedBlackFigures.length){
         figuresManager.chooseBlack();
       }
 
